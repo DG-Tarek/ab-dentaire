@@ -4,7 +4,7 @@ const items = [
   {
     id: "1",
     img: "https://img.medicalexpo.fr/images_me/photo-g/301158-18251063.webp",
-    name: "Blanchiment Dentaire",
+    name: "Blanchiment Dentaire Blanchiment Dentaire",
     description: "Traitement de blanchiment professionnel pour un sourire éclatant.",
     price: 100,
     newPrice: 80,
@@ -13,7 +13,7 @@ const items = [
   {
     id: "2",
     img: "https://img.medicalexpo.fr/images_me/photo-g/301158-18251063.webp",
-    name: "Implant Dentaire",
+    name: "Implant Dentaire Implant Dentaire Implant Dentaire",
     description: "Solution permanente pour dents manquantes.",
     price: 450,
     newPrice: 399,

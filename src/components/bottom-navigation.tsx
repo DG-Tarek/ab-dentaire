@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Heart, ShoppingCart, User, Filter as FilterIcon } from "lucide-react"
+import { Home, Heart, ShoppingCart, User, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "./cart-context"
 
@@ -14,9 +14,9 @@ const navigationItems = [
     isLink: true,
   },
   {
-    name: "Filter",
-    href: "/filter",
-    icon: FilterIcon,
+    name: "Shop",
+    href: "/shop",
+    icon: ShoppingBag,
     isLink: true,
   },
   {

@@ -1,0 +1,37 @@
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Search } from "lucide-react"
+
+export default function NotFound() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center max-w-md mx-auto px-6">
+        <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Search className="w-12 h-12 text-gray-400" />
+        </div>
+        
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          Service non trouvé
+        </h1>
+        
+        <p className="text-gray-600 mb-8">
+          Le service que vous recherchez n'existe pas ou a été supprimé.
+        </p>
+        
+        <div className="space-y-4">
+          <Link href="/item">
+            <Button className="w-full">
+              Retour aux services
+            </Button>
+          </Link>
+          
+          <Link href="/">
+            <Button variant="ghost" className="w-full">
+              Retour à l'accueil
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+} 

@@ -70,18 +70,12 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   className="flex items-center space-x-3 cursor-pointer px-4 py-3 rounded-xl hover:bg-blue-50 text-sm sm:text-base transition-all duration-200"
-                  onClick={() => router.push('/cards')}
+                  onClick={() => router.push('/item')}
                 >
                   <CreditCard className="w-4 h-4 text-green-600" />
                   <span>Nos Services</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className="flex items-center space-x-3 cursor-pointer px-4 py-3 rounded-xl hover:bg-blue-50 text-sm sm:text-base transition-all duration-200"
-                  onClick={() => router.push('/test-route')}
-                >
-                  <CreditCard className="w-4 h-4 text-purple-600" />
-                  <span>Test Route</span>
-                </DropdownMenuItem>
+
                 <DropdownMenuItem className="flex items-center space-x-3 cursor-pointer px-4 py-3 rounded-xl hover:bg-blue-50 text-sm sm:text-base transition-all duration-200">
                   <Heart className="w-4 h-4 text-red-500" />
                   <span>Favoris</span>
@@ -94,7 +88,10 @@ export function Header() {
             </DropdownMenu>
 
             {/* Logo/Brand */}
-            <div className="hidden sm:flex items-center space-x-2">
+            <div 
+              className="hidden sm:flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity duration-200"
+              onClick={() => router.push('/')}
+            >
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">AB</span>
               </div>

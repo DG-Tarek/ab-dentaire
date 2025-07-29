@@ -16,28 +16,8 @@ interface Item {
 
 // Custom hook to get responsive items per page
 function useItemsPerPage() {
-  const [itemsPerPage, setItemsPerPage] = React.useState(6);
-
-  React.useEffect(() => {
-    const updateItemsPerPage = () => {
-      let newItemsPerPage;
-      if (window.innerWidth >= 1024) {
-        newItemsPerPage = 12; // Desktop: 4 columns × 3 rows
-      } else if (window.innerWidth >= 768) {
-        newItemsPerPage = 9; // Tablet: 3 columns × 3 rows
-      } else {
-        newItemsPerPage = 6; // Mobile: 2 columns × 3 rows
-      }
-      console.log(`Screen width: ${window.innerWidth}px, Items per page: ${newItemsPerPage}`);
-      setItemsPerPage(newItemsPerPage);
-    };
-
-    updateItemsPerPage();
-    window.addEventListener('resize', updateItemsPerPage);
-    return () => window.removeEventListener('resize', updateItemsPerPage);
-  }, []);
-
-  return itemsPerPage;
+  // Always return 9 items per page (3 columns × 3 rows)
+  return 9;
 }
 
 export function ItemCardList() {
@@ -100,7 +80,7 @@ export function ItemCardList() {
   };
 
   const handleCardClick = (itemId: string) => {
-    router.push(`/cards/${itemId}`);
+    router.push(`/item/${itemId}`);
   };
 
   // Calculate pagination
@@ -109,7 +89,7 @@ export function ItemCardList() {
   const endIndex = startIndex + itemsPerPage;
   const currentItems = items.slice(startIndex, endIndex);
   
-  console.log(`Items per page: ${itemsPerPage}, Total items: ${items.length}, Current page: ${currentPage}, Showing items ${startIndex + 1}-${endIndex}`);
+
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -131,8 +111,8 @@ export function ItemCardList() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 sm:py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
           {Array.from({ length: 8 }).map((_, idx) => (
             <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="w-full aspect-[3/2] bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse"></div>
@@ -152,9 +132,9 @@ export function ItemCardList() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 sm:py-8">
       {/* Items Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-8">
         {currentItems.map((item, idx) => {
           const isFav = favorites.has(item.name);
           const isAdded = added.has(item.name);
@@ -214,7 +194,7 @@ export function ItemCardList() {
               </div>
 
               {/* Product Content */}
-              <CardContent className="p-5 sm:p-6 lg:p-8 flex flex-col flex-1">
+              <CardContent className="p-5 sm:p-6 lg:p-6 flex flex-col flex-1">
                 {/* Product Name */}
                 <h3 className="font-semibold text-xs sm:text-sm lg:text-base text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-300 mb-2">
                   {item.name}

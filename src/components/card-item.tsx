@@ -17,9 +17,7 @@ export function CardItem({ card, className }: CardItemProps) {
   const router = useRouter()
 
   const handleCardClick = () => {
-    console.log('Card clicked:', card.id, card.title)
-    console.log('Navigating to:', `/cards/${card.id}`)
-    router.push(`/cards/${card.id}`)
+    router.push(`/item/${card.id}`)
   }
 
   const formatDate = (dateString: string) => {
@@ -32,11 +30,11 @@ export function CardItem({ card, className }: CardItemProps) {
 
   return (
     <Card 
-      className={`cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] ${className}`}
+      className={`cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex flex-col ${className}`}
       onClick={handleCardClick}
     >
-      <CardHeader className="pb-3">
-        <div className="relative w-full h-48 mb-4 overflow-hidden rounded-lg">
+      <CardHeader className="pb-1 px-2 pt-2 flex-1">
+        <div className="relative w-full h-48 mb-2 overflow-hidden rounded-lg">
           <Image
             src={card.imageUrl}
             alt={card.title}
@@ -59,23 +57,10 @@ export function CardItem({ card, className }: CardItemProps) {
             </Badge>
           </div>
         </div>
-        
-        <div className="flex items-start justify-between mb-2">
-          <CardTitle className="text-lg leading-tight">{card.title}</CardTitle>
-          {card.price && (
-            <div className="text-right">
-              <div className="text-lg font-bold text-blue-600">{card.price.toLocaleString()} DA</div>
-            </div>
-          )}
-        </div>
-        
-        <CardDescription className="line-clamp-2 text-sm">
-          {card.description}
-        </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-0">
-        <div className="flex items-center justify-between mb-3">
+      <CardContent className="pt-0 px-2 flex-shrink-0">
+        <div className="flex items-center justify-between mb-1">
           <Badge variant="outline" className="text-xs">
             {card.category}
           </Badge>
@@ -87,7 +72,7 @@ export function CardItem({ card, className }: CardItemProps) {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-1 mb-3">
+        <div className="flex flex-wrap gap-1 mb-1">
           {card.tags.slice(0, 3).map((tag, index) => (
             <Badge key={index} variant="secondary" className="text-xs">
               {tag}
@@ -99,9 +84,22 @@ export function CardItem({ card, className }: CardItemProps) {
             </Badge>
           )}
         </div>
+        
+        <div className="flex items-start justify-between mb-1">
+          <CardTitle className="text-base sm:text-lg leading-tight">{card.title}</CardTitle>
+          {card.price && (
+            <div className="text-right">
+              <div className="text-base font-bold text-blue-600">{card.price.toLocaleString()} DA</div>
+            </div>
+          )}
+        </div>
+        
+        <CardDescription className="line-clamp-1 text-xs">
+          {card.description}
+        </CardDescription>
       </CardContent>
 
-      <CardFooter className="pt-0">
+      <CardFooter className="pt-0 px-2 pb-2 flex-shrink-0">
         <div className="flex items-center justify-between w-full text-xs text-gray-500">
           <div className="flex items-center space-x-1">
             <Calendar className="w-3 h-3" />

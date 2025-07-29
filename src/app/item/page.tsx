@@ -30,7 +30,7 @@ export default function CardsPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
           <div className="flex flex-col space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Nos Services</h1>
@@ -107,7 +107,7 @@ export default function CardsPage() {
       </div>
 
       {/* Cards Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
         {filteredCards.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -128,9 +128,9 @@ export default function CardsPage() {
             </Button>
           </div>
         ) : (
-          <div className={`grid gap-6 ${
+          <div className={`grid gap-8 ${
             viewMode === "grid" 
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" 
+              ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3" 
               : "grid-cols-1"
           }`}>
             {filteredCards.map((card) => (
