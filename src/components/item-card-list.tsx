@@ -10,8 +10,9 @@ interface Item {
   img: string;
   name: string;
   price: number;
-  newPrice: number;
+  newPrice?: number;
   category: string;
+  mark?: string;
 }
 
 // Custom hook to get responsive items per page
@@ -218,6 +219,13 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
               {/* Product Content */}
               <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
+                {/* Mark Label */}
+                {item.mark && (
+                  <span className="text-gray-400 text-[12px] font-semibold mb-0.5 block uppercase tracking-wide">
+                    {item.mark}
+                  </span>
+                )}
+                
                 {/* Product Name */}
                 <h3 className="font-semibold text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-1">
                   {item.name}
