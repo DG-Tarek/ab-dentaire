@@ -10,7 +10,8 @@ import {
 import { Button } from "./ui/button"
 import { useCart } from "./cart-context"
 import { useRouter, usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn, formatPrice } from "@/lib/utils"
+import { useCurrency } from "./currency-context"
 
 const navigationItems = [
   {
@@ -39,6 +40,7 @@ export function Header() {
   const { isCartOpen, openCart, closeCart } = useCart()
   const router = useRouter()
   const pathname = usePathname()
+  const { selectedCurrency } = useCurrency()
 
   // Mock cart data - in a real app this would come from context/state
   const cartItems = [
@@ -185,7 +187,7 @@ export function Header() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h4 className="text-xs font-semibold text-gray-900 truncate">{item.name}</h4>
-                            <p className="text-xs text-gray-500 font-medium">{item.price.toLocaleString()} DA</p>
+                            <p className="text-xs text-gray-500 font-medium">{formatPrice(item.price, selectedCurrency)}</p>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Button 
@@ -222,7 +224,7 @@ export function Header() {
                   <div className="border-t border-gray-200 p-6 bg-gray-50">
                     <div className="flex justify-between items-center mb-6">
                       <span className="text-sm font-semibold text-gray-900">Total</span>
-                      <span className="text-lg font-bold text-blue-600">{totalPrice.toLocaleString()} DA</span>
+                      <span className="text-lg font-bold text-blue-600">{formatPrice(totalPrice, selectedCurrency)}</span>
                     </div>
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 rounded-xl mb-3">
                       Procéder au paiement

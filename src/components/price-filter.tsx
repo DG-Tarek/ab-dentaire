@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "./currency-context";
 
 interface PriceFilterProps {
   minPrice: number;
@@ -11,6 +13,7 @@ interface PriceFilterProps {
 }
 
 export function PriceFilter({ minPrice, maxPrice, currentMin, currentMax, onPriceChange }: PriceFilterProps) {
+  const { selectedCurrency } = useCurrency();
   const [localMinPrice, setLocalMinPrice] = React.useState(currentMin);
   const [localMaxPrice, setLocalMaxPrice] = React.useState(currentMax);
 
@@ -36,8 +39,8 @@ export function PriceFilter({ minPrice, maxPrice, currentMin, currentMax, onPric
       <h3 className="font-semibold text-gray-900 mb-4 text-sm">Prix</h3>
       <div className="space-y-4">
         <div className="flex items-center justify-between text-sm text-gray-600">
-          <span>Min: {localMinPrice}€</span>
-          <span>Max: {localMaxPrice}€</span>
+          <span>Min: {formatPrice(localMinPrice, selectedCurrency)}</span>
+          <span>Max: {formatPrice(localMaxPrice, selectedCurrency)}</span>
         </div>
         
         <div className="space-y-3">

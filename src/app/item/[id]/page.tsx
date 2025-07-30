@@ -7,10 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Heart, Share2, Star, ShoppingCart, HeartOff } from "lucide-react"
 import { dummyCards, Card as CardType } from "@/lib/data"
+import { formatPrice } from "@/lib/utils"
+import { useCurrency } from "@/components/currency-context"
 
 export default function CardDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const { selectedCurrency } = useCurrency()
   const [card, setCard] = useState<CardType | null>(null)
   const [isFavorite, setIsFavorite] = useState(false)
   const [quantity, setQuantity] = useState(1)
@@ -132,10 +135,10 @@ export default function CardDetailPage() {
             <div className="bg-gray-50 rounded-2xl p-4 sm:p-6">
               <div className="flex items-baseline gap-3 sm:gap-4">
                 <span className="text-2xl sm:text-3xl font-bold text-blue-600">
-                  {card.price?.toLocaleString()} DA
+                  {card.price ? formatPrice(card.price) : ''}
                 </span>
                 <span className="text-lg sm:text-xl text-gray-500 line-through">
-                  {(card.price ? card.price * 1.2 : 0).toLocaleString()} DA
+                  {card.price ? formatPrice(card.price * 1.2) : ''}
                 </span>
                 <Badge className="bg-red-500 text-white text-sm px-2 py-1">
                   -20%
@@ -242,10 +245,10 @@ export default function CardDetailPage() {
             <div className="bg-gray-50 rounded-3xl p-8">
               <div className="flex items-baseline gap-6">
                 <span className="text-4xl font-bold text-blue-600">
-                  {card.price?.toLocaleString()} DA
+                  {card.price ? formatPrice(card.price) : ''}
                 </span>
                 <span className="text-2xl text-gray-500 line-through">
-                  {(card.price ? card.price * 1.2 : 0).toLocaleString()} DA
+                  {card.price ? formatPrice(card.price * 1.2) : ''}
                 </span>
                 <Badge className="bg-red-500 text-white text-base px-3 py-1">
                   -20%

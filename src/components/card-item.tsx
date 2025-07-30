@@ -7,6 +7,8 @@ import { Star, Calendar, Tag } from "lucide-react"
 import { Card as CardType } from "@/lib/data"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { formatPrice } from "@/lib/utils"
+import { useCurrency } from "./currency-context"
 
 interface CardItemProps {
   card: CardType
@@ -15,6 +17,7 @@ interface CardItemProps {
 
 export function CardItem({ card, className }: CardItemProps) {
   const router = useRouter()
+  const { selectedCurrency } = useCurrency()
 
   const handleCardClick = () => {
     router.push(`/item/${card.id}`)
@@ -89,7 +92,7 @@ export function CardItem({ card, className }: CardItemProps) {
           <CardTitle className="text-xs sm:text-sm leading-tight">{card.title}</CardTitle>
           {card.price && (
             <div className="text-right">
-              <div className="text-xs sm:text-sm font-bold text-blue-600">{card.price.toLocaleString()} DA</div>
+              <div className="text-xs sm:text-sm font-bold text-blue-600">{formatPrice(card.price, selectedCurrency)}</div>
             </div>
           )}
         </div>

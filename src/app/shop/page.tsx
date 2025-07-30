@@ -5,8 +5,10 @@ import { ItemCardList } from "@/components/item-card-list";
 import { CategoryFilter } from "@/components/category-filter";
 import { PriceFilter } from "@/components/price-filter";
 import { MarkFilter } from "@/components/mark-filter";
+import { SortSelector } from "@/components/sort-selector";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Filter, X, Search } from "lucide-react";
+import { type SortOption, sortItems } from "@/lib/utils";
 
 interface Item {
   id: string;
@@ -17,6 +19,7 @@ interface Item {
   newPrice: number;
   category: string;
   mark?: string;
+  rating?: number;
 }
 
 export default function Shop() {
@@ -28,6 +31,7 @@ export default function Shop() {
   const [selectedMarks, setSelectedMarks] = React.useState<string[]>([]);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [selectedSort, setSelectedSort] = React.useState<SortOption>("name-asc");
 
   React.useEffect(() => {
     fetch("/api/items")
@@ -82,9 +86,9 @@ export default function Shop() {
 
 
 
-  // Filtered items for ItemCardList
-  const filteredItems = React.useMemo(() => {
-    return items.filter(item => {
+  // Filtered and sorted items for ItemCardList
+  const filteredAndSortedItems = React.useMemo(() => {
+    const filtered = items.filter(item => {
       const inCategory = !selectedCategory || item.category === selectedCategory;
       const inPrice = item.price >= minPrice && item.price <= maxPrice;
       const inMark = selectedMarks.length === 0 || (item.mark && selectedMarks.includes(item.mark));
@@ -93,7 +97,9 @@ export default function Shop() {
         item.description.toLowerCase().includes(searchQuery.toLowerCase());
       return inCategory && inPrice && inMark && inSearch;
     });
-  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks, searchQuery]);
+    
+    return sortItems(filtered, selectedSort);
+  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks, searchQuery, selectedSort]);
 
   // Filter components
   const FilterComponents = () => (
@@ -131,11 +137,11 @@ export default function Shop() {
   );
 
   return (
-    <div className="min-h-screen p-4 pattern-overlay">
+    <div className="min-h-screen p-6 pattern-overlay">
       <div className="w-full max-w-8xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Mobile Filter Button */}
-          <div className="lg:hidden mb-4">
+        <div className="flex flex-col lg:flex-row gap-8">
+                     {/* Mobile Filter Button */}
+           <div className="lg:hidden mb-6">
             <Drawer open={isMobileDrawerOpen} onOpenChange={setIsMobileDrawerOpen}>
               <DrawerTrigger asChild>
                 <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors">
@@ -167,31 +173,48 @@ export default function Shop() {
           
           {/* Items List */}
           <div className="flex-1">
-            {/* Search Input */}
-            <div className="mb-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Rechercher un service dentaire..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder-gray-400 text-gray-900"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
+                         {/* Search, Sort, and Results Container */}
+             <div className="mb-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white rounded-xl border border-gray-200 shadow-sm p-4 mx-2 sm:mx-2 lg:mx-3">
+              {/* Primary Controls Row */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-3">
+                {/* Search Input */}
+                <div className="flex-1 relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Rechercher un service dentaire..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder-gray-400 text-gray-900"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+                
+                {/* Sort Selector */}
+                <div className="w-full sm:w-62 h-10">
+                  <SortSelector
+                    selectedSort={selectedSort}
+                    onSortChange={setSelectedSort}
+                  />
+                </div>
+              </div>
+              
+              {/* Results Count */}
+              <div className="text-sm text-gray-500 border-t border-gray-100 pt-3">
+                {filteredAndSortedItems.length} service{filteredAndSortedItems.length !== 1 ? 's' : ''} trouvé{filteredAndSortedItems.length !== 1 ? 's' : ''}
               </div>
             </div>
             
             <ItemCardList
               selectedCategory={selectedCategory}
-              items={filteredItems}
+              items={filteredAndSortedItems}
             />
           </div>
         </div>

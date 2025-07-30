@@ -4,6 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, HeartOff, Plus, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "./currency-context";
 
 interface Item {
   id: string;
@@ -13,6 +15,7 @@ interface Item {
   newPrice?: number;
   category: string;
   mark?: string;
+  rating?: number;
 }
 
 // Custom hook to get responsive items per page
@@ -28,6 +31,7 @@ interface ItemCardListProps {
 
 export function ItemCardList({ selectedCategory, items: externalItems }: ItemCardListProps) {
   const router = useRouter();
+  const { selectedCurrency } = useCurrency();
   const [items, setItems] = React.useState<Item[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [favorites, setFavorites] = React.useState<Set<string>>(new Set());
@@ -154,9 +158,9 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Items Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-8 -mx-3 sm:-mx-4 lg:-mx-5">
         {currentItems.map((item, idx) => {
           const isFav = favorites.has(item.name);
           const isAdded = added.has(item.name);
@@ -166,7 +170,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
           return (
             <Card
               key={idx}
-              className="group relative bg-white rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer"
+              className="group relative bg-white rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer px-3 sm:px-4 lg:px-5"
               onClick={() => handleCardClick(item.id)}
             >
               {/* Product Image */}
@@ -211,7 +215,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
                 {/* Discount Badge - Only show if newPrice exists and is different from price */}
                 {newPrice && newPrice < price && (
-                  <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                  <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-md shadow-sm">
                     -{Math.round(((price - newPrice) / price) * 100)}%
                   </div>
                 )}
@@ -219,12 +223,18 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
               {/* Product Content */}
               <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
-                {/* Mark Label */}
-                {item.mark && (
-                  <span className="text-gray-400 text-[12px] font-semibold mb-0.5 block uppercase tracking-wide">
-                    {item.mark}
-                  </span>
-                )}
+                {/* Mark Label - Always render to maintain consistent height */}
+                <div className="h-4 mb-0.5">
+                  {item.mark ? (
+                    <span className="text-gray-400 text-[12px] font-semibold block uppercase tracking-wide">
+                      {item.mark}
+                    </span>
+                  ) : (
+                    <span className="text-transparent text-[12px] font-semibold block uppercase tracking-wide">
+                      &nbsp;
+                    </span>
+                  )}
+                </div>
                 
                 {/* Product Name */}
                 <h3 className="font-semibold text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-1">
@@ -236,11 +246,11 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                   <div className="flex flex-col">
                     {newPrice && newPrice < price ? (
                       <>
-                        <span className="text-xs text-gray-400 line-through">{price.toLocaleString()} DA</span>
-                        <span className="text-xs sm:text-sm font-bold text-blue-600">{newPrice.toLocaleString()} DA</span>
+                        <span className="text-xs text-gray-400 line-through">{formatPrice(price, selectedCurrency)}</span>
+                        <span className="text-xs sm:text-sm font-bold text-blue-600">{formatPrice(newPrice, selectedCurrency)}</span>
                       </>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-900">{price.toLocaleString()} DA</span>
+                      <span className="text-xs sm:text-sm font-bold text-gray-900">{formatPrice(price, selectedCurrency)}</span>
                     )}
                   </div>
                   
@@ -275,7 +285,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 mt-6">
+        <div className="flex items-center justify-center gap-1 mt-8">
           <button
             onClick={goToPreviousPage}
             disabled={currentPage === 1}
@@ -313,7 +323,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
         </div>
       )}
       {/* Page Info */}
-      <div className="text-center text-xs text-gray-500 mt-4">
+      <div className="text-center text-xs text-gray-500 mt-6">
         Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
       </div>
     </div>
