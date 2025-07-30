@@ -41,47 +41,47 @@ export function PriceFilter({ minPrice, maxPrice, currentMin, currentMax, onPric
         </div>
         
         <div className="space-y-3">
-                     <div>
-             <label className="block text-xs text-gray-500 mb-1">Prix minimum</label>
-                                                     <input
-                 type="range"
-                 min={minPrice}
-                 max={maxPrice}
-                 value={localMinPrice}
-                 onChange={handleMinPriceChange}
-                 onInput={handleMinPriceChange}
-                 className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
-                 style={{
-                   background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((localMinPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb ${((localMinPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb 100%)`
-                 }}
-               />
-           </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Prix minimum</label>
+            <input
+              type="range"
+              min={minPrice}
+              max={maxPrice}
+              value={localMinPrice}
+              onChange={handleMinPriceChange}
+              onInput={handleMinPriceChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
+              style={{
+                background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((localMinPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb ${((localMinPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb 100%)`
+              }}
+            />
+          </div>
           
-                     <div>
-             <label className="block text-xs text-gray-500 mb-1">Prix maximum</label>
-                                                     <input
-                 type="range"
-                 min={minPrice}
-                 max={maxPrice}
-                 value={localMaxPrice}
-                 onChange={handleMaxPriceChange}
-                 onInput={handleMaxPriceChange}
-                 className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
-                 style={{
-                   background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((localMaxPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb ${((localMaxPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb 100%)`
-                 }}
-               />
-           </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Prix maximum</label>
+            <input
+              type="range"
+              min={minPrice}
+              max={maxPrice}
+              value={localMaxPrice}
+              onChange={handleMaxPriceChange}
+              onInput={handleMaxPriceChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
+              style={{
+                background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((localMaxPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb ${((localMaxPrice - minPrice) / (maxPrice - minPrice)) * 100}%, #e5e7eb 100%)`
+              }}
+            />
+          </div>
         </div>
 
-                 <div className="flex gap-2">
-           <button
-             onClick={() => onPriceChange(minPrice, maxPrice)}
-             className="text-xs text-blue-600 hover:text-blue-800 font-medium"
-           >
-             Réinitialiser
-           </button>
-         </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => onPriceChange(minPrice, maxPrice)}
+            className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Réinitialiser
+          </button>
+        </div>
       </div>
     </div>
   );

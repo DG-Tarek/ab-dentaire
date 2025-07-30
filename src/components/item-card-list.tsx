@@ -304,9 +304,9 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
           </button>
         </div>
       )}
-      {/* Page Info (moved to bottom) */}
+      {/* Page Info */}
       <div className="text-center text-xs text-gray-500 mt-4">
-        Page {currentPage} of {totalPages} 2 Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
+        Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
       </div>
     </div>
   );

@@ -6,12 +6,13 @@ import { CategoryFilter } from "@/components/category-filter";
 import { PriceFilter } from "@/components/price-filter";
 import { MarkFilter } from "@/components/mark-filter";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Filter, X } from "lucide-react";
+import { Filter, X, Search } from "lucide-react";
 
 interface Item {
   id: string;
   img: string;
   name: string;
+  description: string;
   price: number;
   newPrice: number;
   category: string;
@@ -23,9 +24,10 @@ export default function Shop() {
   const [items, setItems] = React.useState<Item[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [minPrice, setMinPrice] = React.useState(0);
-  const [maxPrice, setMaxPrice] = React.useState(1500);
+  const [maxPrice, setMaxPrice] = React.useState(2000);
   const [selectedMarks, setSelectedMarks] = React.useState<string[]>([]);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   React.useEffect(() => {
     fetch("/api/items")
@@ -68,7 +70,7 @@ export default function Shop() {
 
   // Compute min/max price from items
   const computedMinPrice = React.useMemo(() => items.length ? Math.min(...items.map(i => i.price)) : 0, [items]);
-  const computedMaxPrice = React.useMemo(() => items.length ? Math.max(...items.map(i => i.price)) : 1500, [items]);
+  const computedMaxPrice = React.useMemo(() => items.length ? Math.max(...items.map(i => i.price)) : 2000, [items]);
 
   // Update min/max price when data loads
   React.useEffect(() => {
@@ -78,15 +80,20 @@ export default function Shop() {
     }
   }, [loading, items, computedMinPrice, computedMaxPrice]);
 
+
+
   // Filtered items for ItemCardList
   const filteredItems = React.useMemo(() => {
     return items.filter(item => {
       const inCategory = !selectedCategory || item.category === selectedCategory;
       const inPrice = item.price >= minPrice && item.price <= maxPrice;
       const inMark = selectedMarks.length === 0 || (item.mark && selectedMarks.includes(item.mark));
-      return inCategory && inPrice && inMark;
+      const inSearch = !searchQuery || 
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return inCategory && inPrice && inMark && inSearch;
     });
-  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks]);
+  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks, searchQuery]);
 
   // Filter components
   const FilterComponents = () => (
@@ -160,6 +167,28 @@ export default function Shop() {
           
           {/* Items List */}
           <div className="flex-1">
+            {/* Search Input */}
+            <div className="mb-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Rechercher un service dentaire..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder-gray-400 text-gray-900"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+            
             <ItemCardList
               selectedCategory={selectedCategory}
               items={filteredItems}
