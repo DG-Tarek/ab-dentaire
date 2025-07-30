@@ -18,8 +18,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             ? "border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50"
             : "bg-blue-600 text-white hover:bg-blue-700",
           size === "icon"
-            ? "h-10 w-10 p-0"
-            : "h-10 px-4 py-2",
+            ? "h-8 w-8 p-0"
+            : "h-8 px-3 py-1.5",
           className
         )}
         ref={ref}

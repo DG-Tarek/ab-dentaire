@@ -34,7 +34,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="pb-36 flex-1">
+            <main className="pb-36 lg:pb-0 flex-1">
               {children}
             </main>
             <ContactUsFooter />
