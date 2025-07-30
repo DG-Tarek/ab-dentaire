@@ -70,6 +70,14 @@ export default function Shop() {
   const computedMinPrice = React.useMemo(() => items.length ? Math.min(...items.map(i => i.price)) : 0, [items]);
   const computedMaxPrice = React.useMemo(() => items.length ? Math.max(...items.map(i => i.price)) : 1500, [items]);
 
+  // Update min/max price when data loads
+  React.useEffect(() => {
+    if (!loading && items.length > 0) {
+      setMinPrice(computedMinPrice);
+      setMaxPrice(computedMaxPrice);
+    }
+  }, [loading, items, computedMinPrice, computedMaxPrice]);
+
   // Filtered items for ItemCardList
   const filteredItems = React.useMemo(() => {
     return items.filter(item => {
@@ -86,8 +94,10 @@ export default function Shop() {
       {/* Price Filter */}
       {!loading && (
         <PriceFilter
-          minPrice={computedMinPrice}
-          maxPrice={computedMaxPrice}
+          minPrice={0}
+          maxPrice={2000}
+          currentMin={minPrice}
+          currentMax={maxPrice}
           onPriceChange={(min, max) => {
             setMinPrice(min);
             setMaxPrice(max);

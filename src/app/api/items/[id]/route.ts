@@ -6,7 +6,7 @@ const items = [
     img: "https://img.medicalexpo.fr/images_me/photo-g/301158-18251063.webp",
     name: "Blanchiment Dentaire Blanchiment Dentaire",
     description: "Traitement de blanchiment professionnel pour un sourire éclatant.",
-    price: 100,
+    price: 1000,
     category: "A"
   },
   {
