@@ -8,7 +8,8 @@ const items = [
     description: "Traitement de blanchiment professionnel pour un sourire éclatant.",
     price: 100,
     newPrice: 80,
-    category: "A"
+    category: "A",
+    mark: "Premium"
   },
   {
     id: "2",
@@ -17,7 +18,8 @@ const items = [
     description: "Solution permanente pour dents manquantes.",
     price: 450,
     newPrice: 399,
-    category: "B"
+    category: "B",
+    mark: "Standard"
   },
   {
     id: "3",
@@ -26,7 +28,8 @@ const items = [
     description: "Aligne vos dents discrètement avec des gouttières transparentes.",
     price: 600,
     newPrice: 550,
-    category: "C"
+    category: "C",
+    mark: "Premium"
   },
   {
     id: "4",
@@ -35,7 +38,8 @@ const items = [
     description: "Élimination du tartre pour une hygiène buccale optimale.",
     price: 70,
     newPrice: 50,
-    category: "A"
+    category: "A",
+    mark: "Basic"
   },
   {
     id: "5",
@@ -44,7 +48,8 @@ const items = [
     description: "Améliorez votre sourire avec des facettes esthétiques.",
     price: 800,
     newPrice: 720,
-    category: "E"
+    category: "E",
+    mark: "Luxury"
   },
   {
     id: "6",
@@ -53,7 +58,8 @@ const items = [
     description: "Traitement de canal pour dents endommagées.",
     price: 200,
     newPrice: 180,
-    category: "C"
+    category: "C",
+    mark: "Standard"
   },
   {
     id: "7",
@@ -62,7 +68,8 @@ const items = [
     description: "Remplace les dents manquantes avec un pont fixe.",
     price: 700,
     newPrice: 650,
-    category: "B"
+    category: "B",
+    mark: "Premium"
   },
   {
     id: "8",
@@ -71,7 +78,8 @@ const items = [
     description: "Protège et restaure les dents abîmées.",
     price: 500,
     newPrice: 450,
-    category: "D"
+    category: "D",
+    mark: "Standard"
   },
   {
     id: "9",
@@ -80,7 +88,8 @@ const items = [
     description: "Restaurations dentaires avec résines modernes.",
     price: 120,
     newPrice: 100,
-    category: "D"
+    category: "D",
+    mark: "Basic"
   },
   {
     id: "10",
@@ -89,7 +98,8 @@ const items = [
     description: "Nettoyage, polissage et fluor pour une bouche saine.",
     price: 90,
     newPrice: 75,
-    category: "A"
+    category: "A",
+    mark: "Basic"
   },
   {
     id: "11",
@@ -98,7 +108,8 @@ const items = [
     description: "Imagerie numérique pour un diagnostic précis.",
     price: 50,
     newPrice: 40,
-    category: "E"
+    category: "E",
+    mark: "Basic"
   },
   {
     id: "12",

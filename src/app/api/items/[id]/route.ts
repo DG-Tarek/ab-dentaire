@@ -7,7 +7,6 @@ const items = [
     name: "Blanchiment Dentaire Blanchiment Dentaire",
     description: "Traitement de blanchiment professionnel pour un sourire éclatant.",
     price: 100,
-    newPrice: 80,
     category: "A"
   },
   {

@@ -86,10 +86,10 @@ export function CardItem({ card, className }: CardItemProps) {
         </div>
         
         <div className="flex items-start justify-between mb-1">
-          <CardTitle className="text-sm sm:text-base leading-tight">{card.title}</CardTitle>
+          <CardTitle className="text-xs sm:text-sm leading-tight">{card.title}</CardTitle>
           {card.price && (
             <div className="text-right">
-              <div className="text-sm font-bold text-blue-600">{card.price.toLocaleString()} DA</div>
+              <div className="text-xs sm:text-sm font-bold text-blue-600">{card.price.toLocaleString()} DA</div>
             </div>
           )}
         </div>

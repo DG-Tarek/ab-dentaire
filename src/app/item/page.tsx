@@ -33,8 +33,8 @@ export default function CardsPage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
           <div className="flex flex-col space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Nos Services</h1>
-              <p className="mt-2 text-gray-600">
+              <h1 className="text-2xl font-bold text-gray-900">Nos Services</h1>
+              <p className="mt-2 text-sm text-gray-600">
                 Découvrez notre gamme complète de services dentaires professionnels
               </p>
             </div>
@@ -49,7 +49,7 @@ export default function CardsPage() {
                   placeholder="Rechercher un service..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 />
               </div>
 
@@ -59,7 +59,7 @@ export default function CardsPage() {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 >
                   <option value="all">Toutes les catégories</option>
                   {categories.map((category) => (
@@ -93,7 +93,7 @@ export default function CardsPage() {
 
             {/* Results Count */}
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs text-gray-600">
                 {filteredCards.length} service{filteredCards.length !== 1 ? 's' : ''} trouvé{filteredCards.length !== 1 ? 's' : ''}
               </p>
               {selectedCategory !== "all" && (
@@ -113,8 +113,8 @@ export default function CardsPage() {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Search className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Aucun service trouvé</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucun service trouvé</h3>
+            <p className="text-sm text-gray-600 mb-6">
               Essayez de modifier vos critères de recherche ou de sélectionner une autre catégorie.
             </p>
             <Button

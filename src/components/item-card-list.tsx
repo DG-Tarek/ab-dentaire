@@ -20,7 +20,12 @@ function useItemsPerPage() {
   return 9;
 }
 
-export function ItemCardList() {
+interface ItemCardListProps {
+  selectedCategory?: string | null;
+  items?: Item[];
+}
+
+export function ItemCardList({ selectedCategory, items: externalItems }: ItemCardListProps) {
   const router = useRouter();
   const [items, setItems] = React.useState<Item[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -30,14 +35,25 @@ export function ItemCardList() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = useItemsPerPage();
 
+  // If externalItems is provided, use it directly and skip fetching
   React.useEffect(() => {
-    fetch("/api/items")
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
-        setLoading(false);
-      });
-  }, []);
+    if (externalItems) {
+      setItems(externalItems);
+      setLoading(false);
+    } else {
+      fetch("/api/items")
+        .then((res) => res.json())
+        .then((data) => {
+          setItems(data);
+          setLoading(false);
+        });
+    }
+  }, [externalItems]);
+
+  // Reset to first page when category or items change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, items]);
 
   const toggleFavorite = (name: string) => {
     setFavorites((prev) => {
@@ -83,11 +99,16 @@ export function ItemCardList() {
     router.push(`/item/${itemId}`);
   };
 
+  // If using externalItems, don't filter by category here
+  const filteredItems = externalItems
+    ? items
+    : (selectedCategory ? items.filter(item => item.category === selectedCategory) : items);
+
   // Calculate pagination
-  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = items.slice(startIndex, endIndex);
+  const currentItems = filteredItems.slice(startIndex, endIndex);
   
 
 
@@ -187,24 +208,32 @@ export function ItemCardList() {
                   />
                 </button>
 
-                {/* Discount Badge */}
-                <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
-                  -{Math.round(((price - newPrice) / price) * 100)}%
-                </div>
+                {/* Discount Badge - Only show if newPrice exists and is different from price */}
+                {newPrice && newPrice < price && (
+                  <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                    -{Math.round(((price - newPrice) / price) * 100)}%
+                  </div>
+                )}
               </div>
 
               {/* Product Content */}
               <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
                 {/* Product Name */}
-                <h3 className="font-semibold text-xs sm:text-sm text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-1">
+                <h3 className="font-semibold text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-1">
                   {item.name}
                 </h3>
                 
                 {/* Price and Button Section */}
                 <div className="mt-auto flex items-end justify-between">
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-400 line-through">{price.toLocaleString()} DA</span>
-                    <span className="text-sm sm:text-base font-bold text-blue-600">{newPrice.toLocaleString()} DA</span>
+                    {newPrice && newPrice < price ? (
+                      <>
+                        <span className="text-xs text-gray-400 line-through">{price.toLocaleString()} DA</span>
+                        <span className="text-xs sm:text-sm font-bold text-blue-600">{newPrice.toLocaleString()} DA</span>
+                      </>
+                    ) : (
+                      <span className="text-xs sm:text-sm font-bold text-gray-900">{price.toLocaleString()} DA</span>
+                    )}
                   </div>
                   
                   {/* Cart Button */}
@@ -253,7 +282,7 @@ export function ItemCardList() {
               <button
                 key={page}
                 onClick={() => goToPage(page)}
-                className={`w-9 h-9 rounded-lg border text-sm font-medium transition-all duration-200 ${
+                className={`w-9 h-9 rounded-lg border text-xs font-medium transition-all duration-200 ${
                   currentPage === page
                     ? "bg-blue-600 text-white border-blue-600 shadow-md"
                     : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
@@ -275,13 +304,10 @@ export function ItemCardList() {
           </button>
         </div>
       )}
-
-      {/* Page Info */}
-      {totalPages > 1 && (
-        <div className="text-center text-xs text-gray-500 mt-4">
-          Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, items.length)} of {items.length} items
-        </div>
-      )}
+      {/* Page Info (moved to bottom) */}
+      <div className="text-center text-xs text-gray-500 mt-4">
+        Page {currentPage} of {totalPages} 2 Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
+      </div>
     </div>
   );
 }

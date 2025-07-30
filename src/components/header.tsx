@@ -1,13 +1,7 @@
 "use client"
 
-import { Menu, ShoppingCart, X, Trash2, Plus, Minus, User, Heart, Home, CreditCard, ShoppingBag, Phone, ChevronDown } from "lucide-react"
+import { ShoppingCart, X, Trash2, Plus, Minus, User, Heart, Home, ShoppingBag } from "lucide-react"
 import * as React from "react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu"
 import {
   Drawer,
   DrawerContent,
@@ -23,54 +17,22 @@ const navigationItems = [
     name: "Accueil",
     href: "/",
     icon: Home,
-    isLink: true,
   },
   {
     name: "Shop",
     href: "/shop",
     icon: ShoppingBag,
-    isLink: false, // This will show dropdown instead of direct navigation
   },
   {
     name: "Favoris",
     href: "/favorite",
     icon: Heart,
-    isLink: true,
   },
   {
     name: "Compte",
     href: "/account",
     icon: User,
-    isLink: true,
   },
-]
-
-const boutiqueCategories = [
-  {
-    name: "Tous les produits",
-    href: "/shop",
-    description: "Voir tous nos produits dentaires"
-  },
-  {
-    name: "Équipements",
-    href: "/shop?category=equipment",
-    description: "Matériel professionnel"
-  },
-  {
-    name: "Consommables",
-    href: "/shop?category=consumables", 
-    description: "Produits d'usage quotidien"
-  },
-  {
-    name: "Instruments",
-    href: "/shop?category=instruments",
-    description: "Outils spécialisés"
-  },
-  {
-    name: "Protection",
-    href: "/shop?category=protection",
-    description: "Équipements de sécurité"
-  }
 ]
 
 export function Header() {
@@ -105,31 +67,6 @@ export function Header() {
         <div className="flex items-center justify-between h-12 sm:h-14">
           {/* Left: Logo and Navigation */}
           <div className="flex items-center space-x-6">
-            {/* Hamburger Menu - Mobile Only */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  aria-label="Open shop categories"
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl hover:bg-gray-100 transition-colors duration-200 lg:hidden"
-                >
-                  <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="mt-2 ml-2 w-64 rounded-2xl shadow-lg bg-white border border-gray-200 p-2">
-                {boutiqueCategories.map((category) => (
-                  <DropdownMenuItem 
-                    key={category.name}
-                    className="flex flex-col items-start cursor-pointer px-4 py-3 rounded-xl hover:bg-blue-50 text-sm transition-colors duration-200"
-                    onClick={() => router.push(category.href)}
-                  >
-                    <span className="font-medium text-gray-900">{category.name}</span>
-                    <span className="text-xs text-gray-500">{category.description}</span>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
 
             {/* Logo/Brand */}
             <div 
@@ -140,7 +77,7 @@ export function Header() {
                 <span className="text-white font-bold text-xs sm:text-sm">AB</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-base sm:text-lg font-bold text-gray-900">Dentaire</span>
+                <span className="text-sm sm:text-base font-bold text-gray-900">Dentaire</span>
                 <span className="text-xs text-gray-500 hidden sm:block">Excellence & Innovation</span>
               </div>
             </div>
@@ -152,41 +89,6 @@ export function Header() {
               const isActive = pathname === item.href
               const Icon = item.icon
               
-              // Special handling for Shop button on desktop
-              if (item.name === "Shop") {
-                return (
-                  <DropdownMenu key={item.name}>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        className={cn(
-                          "flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200",
-                          isActive 
-                            ? "text-blue-600 bg-blue-50" 
-                            : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                        )}
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span className="font-medium">{item.name}</span>
-                        <ChevronDown className="w-4 h-4" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mt-2 w-64 rounded-2xl shadow-lg bg-white border border-gray-200 p-2">
-                      {boutiqueCategories.map((category) => (
-                        <DropdownMenuItem 
-                          key={category.name}
-                          className="flex flex-col items-start cursor-pointer px-4 py-3 rounded-xl hover:bg-blue-50 text-sm transition-colors duration-200"
-                          onClick={() => router.push(category.href)}
-                        >
-                          <span className="font-medium text-gray-900">{category.name}</span>
-                          <span className="text-xs text-gray-500">{category.description}</span>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )
-              }
-              
-              // Regular navigation items
               return (
                 <button
                   key={item.name}
@@ -199,10 +101,26 @@ export function Header() {
                   )}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="font-medium">{item.name}</span>
+                  <span className="font-medium text-sm">{item.name}</span>
                 </button>
               )
             })}
+          </div>
+
+          {/* Mobile Navigation - Simple Shop Button */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => router.push('/shop')}
+              className={cn(
+                "flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-200",
+                pathname === '/shop'
+                  ? "text-blue-600 bg-blue-50" 
+                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              )}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span className="font-medium text-sm">Shop</span>
+            </button>
           </div>
 
           {/* Right: Cart */}
@@ -229,8 +147,8 @@ export function Header() {
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Panier</h2>
-                    <p className="text-sm text-gray-500">{totalItems} article{totalItems !== 1 ? 's' : ''}</p>
+                    <h2 className="text-lg font-bold text-gray-900">Panier</h2>
+                    <p className="text-xs text-gray-500">{totalItems} article{totalItems !== 1 ? 's' : ''}</p>
                   </div>
                   <Button 
                     variant="ghost" 
@@ -249,8 +167,8 @@ export function Header() {
                       <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                         <ShoppingCart className="w-10 h-10 text-gray-400" />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Votre panier est vide</h3>
-                      <p className="text-gray-500 mb-8 max-w-sm">Ajoutez quelques articles pour commencer vos achats</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">Votre panier est vide</h3>
+                      <p className="text-sm text-gray-500 mb-8 max-w-sm">Ajoutez quelques articles pour commencer vos achats</p>
                       <Button 
                         onClick={closeCart} 
                         className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-xl"
@@ -266,8 +184,8 @@ export function Header() {
                             <ShoppingCart className="w-7 h-7 text-blue-600" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-semibold text-gray-900 truncate">{item.name}</h4>
-                            <p className="text-sm text-gray-500 font-medium">{item.price.toLocaleString()} DA</p>
+                            <h4 className="text-xs font-semibold text-gray-900 truncate">{item.name}</h4>
+                            <p className="text-xs text-gray-500 font-medium">{item.price.toLocaleString()} DA</p>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Button 
@@ -303,8 +221,8 @@ export function Header() {
                 {cartItems.length > 0 && (
                   <div className="border-t border-gray-200 p-6 bg-gray-50">
                     <div className="flex justify-between items-center mb-6">
-                      <span className="text-lg font-semibold text-gray-900">Total</span>
-                      <span className="text-2xl font-bold text-blue-600">{totalPrice.toLocaleString()} DA</span>
+                      <span className="text-sm font-semibold text-gray-900">Total</span>
+                      <span className="text-lg font-bold text-blue-600">{totalPrice.toLocaleString()} DA</span>
                     </div>
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 rounded-xl mb-3">
                       Procéder au paiement
