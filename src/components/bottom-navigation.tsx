@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home, Heart, User, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { COMPONENT_SCALING } from "@/lib/responsive-scaling"
 
 const navigationItems = [
   {
@@ -44,8 +45,11 @@ export function BottomNavigation() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center transition-all duration-300 min-w-[48px] sm:min-w-[52px] relative group",
+                  "flex flex-col items-center justify-center transition-all duration-300 relative group",
                   "hover:scale-110 active:scale-95",
+                  COMPONENT_SCALING.navigation.button.mobile,
+                  "sm:" + COMPONENT_SCALING.navigation.button.tablet,
+                  "lg:" + COMPONENT_SCALING.navigation.button.desktop,
                   isActive
                     ? "text-blue-600"
                     : "text-slate-600 hover:text-slate-900"
@@ -58,14 +62,18 @@ export function BottomNavigation() {
                 
                 {/* Icon with enhanced styling */}
                 <div className={cn(
-                  "relative p-2 rounded-lg transition-all duration-300",
+                  "relative rounded-lg transition-all duration-300",
+                  "p-1 sm:p-1.5 lg:p-2",
                   isActive 
-                    ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25" 
+                    ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white" 
                     : "group-hover:bg-slate-100"
                 )}>
                   <Icon
                     className={cn(
-                      "w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300",
+                      COMPONENT_SCALING.navigation.icon.mobile,
+                      "sm:" + COMPONENT_SCALING.navigation.icon.tablet,
+                      "lg:" + COMPONENT_SCALING.navigation.icon.desktop,
+                      "transition-all duration-300",
                       isActive && "scale-110"
                     )}
                   />
@@ -73,16 +81,16 @@ export function BottomNavigation() {
                 
                 {/* Label */}
                 <span className={cn(
-                  "text-xs font-medium leading-tight mt-1 transition-all duration-300",
+                  COMPONENT_SCALING.navigation.text.mobile,
+                  "sm:" + COMPONENT_SCALING.navigation.text.tablet,
+                  "lg:" + COMPONENT_SCALING.navigation.text.desktop,
+                  "font-medium leading-tight mt-1 transition-all duration-300",
                   isActive ? "text-blue-600 font-semibold" : "text-slate-600"
                 )}>
                   {item.name}
                 </span>
                 
-                {/* Active indicator dot */}
-                {isActive && (
-                  <div className="absolute -bottom-1 w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
-                )}
+
               </Link>
             )
           })}

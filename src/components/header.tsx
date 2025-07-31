@@ -12,6 +12,7 @@ import { useCart } from "./cart-context"
 import { useRouter, usePathname } from "next/navigation"
 import { cn, formatPrice } from "@/lib/utils"
 import { useCurrency } from "./currency-context"
+import { COMPONENT_SCALING } from "@/lib/responsive-scaling"
 
 const navigationItems = [
   {
@@ -102,14 +103,12 @@ export function Header() {
                       : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                   )}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="font-medium text-sm">{item.name}</span>
+                  <Icon className={COMPONENT_SCALING.navigation.icon.desktop} />
+                  <span className={cn("font-medium", COMPONENT_SCALING.navigation.text.desktop)}>{item.name}</span>
                 </button>
               )
             })}
           </div>
-
-
 
           {/* Right: Cart */}
           <div className="flex items-center">
@@ -120,10 +119,19 @@ export function Header() {
                   variant="ghost" 
                   size="icon" 
                   aria-label="Open cart"
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl hover:bg-gray-100 transition-colors duration-200 relative"
+                  className={cn(
+                    "rounded-xl hover:bg-gray-100 transition-colors duration-200 relative",
+                    COMPONENT_SCALING.navigation.button.mobile,
+                    "sm:" + COMPONENT_SCALING.navigation.button.tablet,
+                    "lg:" + COMPONENT_SCALING.navigation.button.desktop
+                  )}
                   onClick={openCart}
                 >
-                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <ShoppingCart className={cn(
+                    COMPONENT_SCALING.navigation.icon.mobile,
+                    "sm:" + COMPONENT_SCALING.navigation.icon.tablet,
+                    "lg:" + COMPONENT_SCALING.navigation.icon.desktop
+                  )} />
                   {totalItems > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                       {totalItems}
@@ -142,9 +150,18 @@ export function Header() {
                     variant="ghost" 
                     size="icon" 
                     onClick={closeCart}
-                    className="w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors duration-200"
+                    className={cn(
+                      "rounded-xl hover:bg-gray-100 transition-colors duration-200",
+                      COMPONENT_SCALING.navigation.button.mobile,
+                      "sm:" + COMPONENT_SCALING.navigation.button.tablet,
+                      "lg:" + COMPONENT_SCALING.navigation.button.desktop
+                    )}
                   >
-                    <X className="w-5 h-5" />
+                    <X className={cn(
+                      COMPONENT_SCALING.navigation.icon.mobile,
+                      "sm:" + COMPONENT_SCALING.navigation.icon.tablet,
+                      "lg:" + COMPONENT_SCALING.navigation.icon.desktop
+                    )} />
                   </Button>
                 </div>
 
