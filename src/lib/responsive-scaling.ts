@@ -296,7 +296,7 @@ export const COMPONENT_SCALING = {
   }
 } as const;
 
-export default {
+const responsiveScaling = {
   BREAKPOINTS,
   BASE_FONT_SIZES,
   TYPOGRAPHY_SCALE,
@@ -309,4 +309,6 @@ export default {
   getResponsiveTouchClasses,
   RESPONSIVE_CLASSES,
   COMPONENT_SCALING
-}; 
+};
+
+export default responsiveScaling; 

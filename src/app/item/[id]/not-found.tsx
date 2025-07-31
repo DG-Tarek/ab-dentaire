@@ -15,7 +15,7 @@ export default function NotFound() {
         </h1>
         
         <p className="text-sm text-gray-600 mb-8">
-          Le service que vous recherchez n'existe pas ou a été supprimé.
+          Le service que vous recherchez n&apos;existe pas ou a été supprimé.
         </p>
         
         <div className="space-y-4">
@@ -27,7 +27,7 @@ export default function NotFound() {
           
           <Link href="/">
             <Button variant="ghost" className="w-full">
-              Retour à l'accueil
+              Retour à l&apos;accueil
             </Button>
           </Link>
         </div>

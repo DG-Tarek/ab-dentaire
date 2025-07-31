@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { CardItem } from "@/components/card-item"
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Heart, Share2, Star, ShoppingCart, HeartOff } from "lucide-react"
+import { ArrowLeft, Heart, Share2, Star, ShoppingCart } from "lucide-react"
 import { dummyCards, Card as CardType } from "@/lib/data"
 import { formatPrice } from "@/lib/utils"
 import { useCurrency } from "@/components/currency-context"
@@ -29,7 +29,7 @@ export default function CardDetailPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Service non trouvé</h1>
-          <p className="text-gray-600 mb-6">Le service que vous recherchez n'existe pas.</p>
+          <p className="text-gray-600 mb-6">Le service que vous recherchez n&apos;existe pas.</p>
           <Button onClick={() => router.push("/item")}>
             Retour aux services
           </Button>

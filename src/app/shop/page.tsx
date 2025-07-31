@@ -9,7 +9,7 @@ import { SortSelector } from "@/components/sort-selector";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Filter, X, Search } from "lucide-react";
 import { type SortOption, sortItems } from "@/lib/utils";
-import { COMPONENT_SCALING } from "@/lib/responsive-scaling";
+
 
 interface Item {
   id: string;

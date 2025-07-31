@@ -128,7 +128,7 @@ export function Header() {
           {/* Right: Cart */}
           <div className="flex items-center">
             {/* Cart Drawer */}
-            <Drawer open={isCartOpen} onOpenChange={(open: boolean) => open ? openCart() : closeCart()} direction="right">
+            <Drawer open={isCartOpen} onOpenChange={(open: boolean) => open ? openCart() : closeCart()}>
               <DrawerTrigger asChild>
                 <Button 
                   variant="ghost" 
@@ -145,7 +145,7 @@ export function Header() {
                   )}
                 </Button>
               </DrawerTrigger>
-              <DrawerContent className="fixed top-0 right-0 h-full w-80 sm:w-96 bg-white shadow-2xl border-l border-gray-200 flex flex-col">
+              <DrawerContent direction="right" className="fixed top-0 right-0 h-full w-80 sm:w-96 bg-white shadow-2xl border-l border-gray-200 flex flex-col">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">
                   <div>

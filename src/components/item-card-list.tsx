@@ -3,10 +3,10 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, HeartOff, Plus, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCurrency } from "./currency-context";
-import { COMPONENT_SCALING } from "@/lib/responsive-scaling";
+
 
 interface Item {
   id: string;

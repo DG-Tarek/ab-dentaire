@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
-import { Button } from "./ui/button"
+
 import { Star, Calendar, Tag } from "lucide-react"
 import { Card as CardType } from "@/lib/data"
 import { useRouter } from "next/navigation"
