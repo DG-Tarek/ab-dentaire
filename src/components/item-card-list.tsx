@@ -170,7 +170,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
           return (
             <Card
               key={idx}
-              className="group relative bg-white rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer px-3 sm:px-4 lg:px-5"
+              className="group relative bg-white rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer"
               onClick={() => handleCardClick(item.id)}
             >
               {/* Product Image */}
