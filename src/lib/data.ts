@@ -16,7 +16,7 @@ export interface Card {
 export const dummyCards: Card[] = [
   {
     id: "1",
-    title: "Blanchiment Dentaire",
+    title: "Blanchiment Dentaire Blanchiment Dentaire ",
     description: "Service de blanchiment professionnel pour un sourire éclatant. Traitement sûr et efficace en cabinet dentaire.",
     imageUrl: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&h=300&fit=crop",
     category: "Esthétique",

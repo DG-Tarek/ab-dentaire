@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/header";
+import { ConditionalHeader } from "@/components/conditional-header";
 import { CartProvider } from "@/components/cart-context";
 import { CurrencyProvider } from "@/components/currency-context";
 import { ConditionalFooter } from "@/components/conditional-footer";
@@ -34,8 +34,8 @@ export default function RootLayout({
         <CartProvider>
           <CurrencyProvider>
             <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="pb-36 lg:pb-0 flex-1">
+              <ConditionalHeader />
+              <main className="pb-40 lg:pb-0 flex-1">
                 {children}
               </main>
               <ConditionalFooter />

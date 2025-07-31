@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Zoom } from "@/components/ui/zoom"
 import { ArrowLeft, Heart, Share2, Star, ShoppingCart } from "lucide-react"
 import { dummyCards, Card as CardType } from "@/lib/data"
 import { formatPrice } from "@/lib/utils"
@@ -92,16 +93,16 @@ export default function CardDetailPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
         {/* Mobile Layout - Stacked */}
         <div className="space-y-6 sm:space-y-8 lg:hidden">
-          {/* Product Image */}
-          <div className="relative">
-            <div className="aspect-square sm:aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden shadow-lg">
-              <img
-                src={card.imageUrl}
-                alt={card.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+                     {/* Product Image */}
+           <div className="relative">
+             <Zoom className="aspect-square sm:aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden shadow-lg">
+               <img
+                 src={card.imageUrl}
+                 alt={card.title}
+                 className="w-full h-full object-cover"
+               />
+             </Zoom>
+           </div>
 
           {/* Product Info */}
           <div className="space-y-6">
@@ -207,16 +208,16 @@ export default function CardDetailPage() {
 
         {/* Desktop Layout - Side by Side */}
         <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
-          {/* Left Column - Image */}
-          <div className="sticky top-24">
-            <div className="aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl overflow-hidden shadow-xl">
-              <img
-                src={card.imageUrl}
-                alt={card.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+                     {/* Left Column - Image */}
+           <div className="sticky top-24">
+             <Zoom className="aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl overflow-hidden shadow-xl">
+               <img
+                 src={card.imageUrl}
+                 alt={card.title}
+                 className="w-full h-full object-cover"
+               />
+             </Zoom>
+           </div>
 
           {/* Right Column - Content */}
           <div className="space-y-8">
