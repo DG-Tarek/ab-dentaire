@@ -137,12 +137,12 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto px-2 md:px-4 lg:px-8 py-4 md:py-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8">
           {Array.from({ length: 8 }).map((_, idx) => (
-            <div key={idx} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div key={idx} className="bg-white rounded-lg md:rounded-xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="w-full aspect-[3/2] bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse"></div>
-              <div className="p-3 sm:p-4 space-y-2">
+              <div className="p-2 md:p-3 lg:p-4 space-y-2">
                 <div className="h-3 bg-gray-200 rounded animate-pulse"></div>
                 <div className="h-3 bg-gray-200 rounded w-3/4 animate-pulse"></div>
                 <div className="flex justify-between items-center">
@@ -158,9 +158,9 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="max-w-7xl mx-auto px-2 md:px-4 lg:px-0 py-4 md:py-6 lg:py-8">
       {/* Items Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-8 -mx-3 sm:-mx-4 lg:-mx-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-6 mb-6 md:mb-8">
         {currentItems.map((item, idx) => {
           const isFav = favorites.has(item.name);
           const isAdded = added.has(item.name);
@@ -170,11 +170,11 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
           return (
             <Card
               key={idx}
-              className="group relative bg-white rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer"
+              className="group relative bg-white rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-lg hover:shadow-blue-100/50 transition-all duration-300 overflow-hidden transform hover:-translate-y-0.5 flex flex-col cursor-pointer"
               onClick={() => handleCardClick(item.id)}
             >
-              {/* Product Image */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 aspect-[3/2]">
+                             {/* Product Image */}
+               <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 aspect-[4/3] lg:aspect-[3/2]">
                 {/* Loading skeleton */}
                 {!isImageLoaded && (
                   <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
@@ -201,11 +201,11 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                     e.stopPropagation();
                     toggleFavorite(item.name);
                   }}
-                  className="absolute top-2 right-2 flex items-center justify-center w-8 h-8 rounded-full bg-white/90 shadow-md hover:bg-white hover:scale-105 transition-all duration-200 backdrop-blur-sm z-10"
+                  className="absolute top-1 md:top-2 right-1 md:right-2 flex items-center justify-center w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full bg-white/90 shadow-md hover:bg-white hover:scale-105 transition-all duration-200 backdrop-blur-sm z-10"
                   aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
                 >
                   <Heart
-                    className={`w-4 h-4 transition-all duration-200 ${
+                    className={`w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 transition-all duration-200 ${
                       isFav 
                         ? "fill-red-500 text-red-500 scale-110" 
                         : "text-gray-500 hover:text-red-400"
@@ -213,45 +213,45 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                   />
                 </button>
 
-                {/* Discount Badge - Only show if newPrice exists and is different from price */}
-                {newPrice && newPrice < price && (
-                  <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-md shadow-sm">
-                    -{Math.round(((price - newPrice) / price) * 100)}%
-                  </div>
-                )}
+                                 {/* Discount Badge - Only show if newPrice exists and is different from price */}
+                 {newPrice && newPrice < price && (
+                   <div className="absolute top-1 md:top-2 left-1 md:left-2 bg-red-600 text-white text-[10px] md:text-xs lg:text-xs font-bold px-1.5 md:px-2 lg:px-2.5 py-0.5 rounded-md shadow-sm">
+                     -{Math.round(((price - newPrice) / price) * 100)}%
+                   </div>
+                 )}
               </div>
 
               {/* Product Content */}
-              <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
-                {/* Mark Label - Always render to maintain consistent height */}
-                <div className="h-4 mb-0.5">
+              <CardContent className="p-2 md:p-3 lg:p-4 flex flex-col flex-1">
+                                 {/* Mark Label - Always render to maintain consistent height */}
+                 <div className="h-3 md:h-4 lg:h-5 mb-0.5">
                   {item.mark ? (
-                    <span className="text-gray-400 text-[12px] font-semibold block uppercase tracking-wide">
-                      {item.mark}
-                    </span>
-                  ) : (
-                    <span className="text-transparent text-[12px] font-semibold block uppercase tracking-wide">
-                      &nbsp;
-                    </span>
-                  )}
+                                       <span className="text-gray-400 text-[10px] md:text-[12px] lg:text-xs font-semibold block uppercase tracking-wide">
+                     {item.mark}
+                   </span>
+                 ) : (
+                   <span className="text-transparent text-[10px] md:text-[12px] lg:text-xs font-semibold block uppercase tracking-wide">
+                     &nbsp;
+                   </span>
+                 )}
                 </div>
                 
-                {/* Product Name */}
-                <h3 className="font-semibold text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-1">
-                  {item.name}
-                </h3>
+                                 {/* Product Name */}
+                 <h3 className="font-semibold text-[10px] md:text-sm lg:text-sm text-gray-900 line-clamp-3 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                   {item.name}
+                 </h3>
                 
                 {/* Price and Button Section */}
                 <div className="mt-auto flex items-end justify-between">
                   <div className="flex flex-col">
-                    {newPrice && newPrice < price ? (
-                      <>
-                        <span className="text-xs text-gray-400 line-through">{formatPrice(price, selectedCurrency)}</span>
-                        <span className="text-xs sm:text-sm font-bold text-blue-600">{formatPrice(newPrice, selectedCurrency)}</span>
-                      </>
-                    ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-900">{formatPrice(price, selectedCurrency)}</span>
-                    )}
+                                         {newPrice && newPrice < price ? (
+                       <>
+                         <span className="text-[10px] md:text-xs lg:text-xs text-gray-400 line-through">{formatPrice(price, selectedCurrency)}</span>
+                         <span className="text-[10px] md:text-sm lg:text-sm font-bold text-blue-600">{formatPrice(newPrice, selectedCurrency)}</span>
+                       </>
+                     ) : (
+                       <span className="text-[10px] md:text-sm lg:text-sm font-bold text-gray-900">{formatPrice(price, selectedCurrency)}</span>
+                     )}
                   </div>
                   
                   {/* Cart Button */}
@@ -260,7 +260,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                       e.stopPropagation();
                       handleAdd(item.name);
                     }}
-                    className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md transition-all duration-200 transform ${
+                    className={`flex items-center justify-center w-6 h-6 md:w-7 md:h-7 lg:w-10 lg:h-10 rounded-full shadow-md transition-all duration-200 transform ${
                       isAdded 
                         ? "bg-green-500 text-white scale-110" 
                         : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
@@ -268,9 +268,9 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                     aria-label="Add to cart"
                   >
                     {isAdded ? (
-                      <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     ) : (
-                      <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <ShoppingCart className="w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4" />
                     )}
                   </button>
                 </div>
@@ -285,14 +285,14 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 mt-8">
+        <div className="flex items-center justify-center gap-1 mt-6 sm:mt-8">
           <button
             onClick={goToPreviousPage}
             disabled={currentPage === 1}
-            className="flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
+            className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
             aria-label="Previous page"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
           </button>
           
           <div className="flex items-center gap-1">
@@ -300,7 +300,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
               <button
                 key={page}
                 onClick={() => goToPage(page)}
-                className={`w-9 h-9 rounded-lg border text-xs font-medium transition-all duration-200 ${
+                className={`w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border text-[10px] md:text-xs lg:text-sm font-medium transition-all duration-200 ${
                   currentPage === page
                     ? "bg-blue-600 text-white border-blue-600 shadow-md"
                     : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
@@ -315,15 +315,15 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
           <button
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
-            className="flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
+            className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
             aria-label="Next page"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
           </button>
         </div>
       )}
       {/* Page Info */}
-      <div className="text-center text-xs text-gray-500 mt-6">
+      <div className="text-center text-[10px] md:text-xs lg:text-sm text-gray-500 mt-4 md:mt-6">
         Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
       </div>
     </div>
