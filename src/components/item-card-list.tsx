@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, HeartOff, Plus, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCurrency } from "./currency-context";
+import { COMPONENT_SCALING } from "@/lib/responsive-scaling";
 
 interface Item {
   id: string;
@@ -195,27 +196,27 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                 {/* Gradient overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                {/* Favorite Icon - Top Right */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite(item.name);
-                  }}
-                  className="absolute top-1 md:top-2 right-1 md:right-2 flex items-center justify-center w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full bg-white/90 shadow-md hover:bg-white hover:scale-105 transition-all duration-200 backdrop-blur-sm z-10"
-                  aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <Heart
-                    className={`w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 transition-all duration-200 ${
-                      isFav 
-                        ? "fill-red-500 text-red-500 scale-110" 
-                        : "text-gray-500 hover:text-red-400"
-                    }`}
-                  />
-                </button>
+                                 {/* Favorite Icon - Top Right */}
+                 <button
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     toggleFavorite(item.name);
+                   }}
+                   className="absolute top-1 md:top-2 right-1 md:right-2 flex items-center justify-center w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full bg-white/90 shadow-md hover:bg-white hover:scale-105 transition-all duration-200 backdrop-blur-sm z-10"
+                   aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+                 >
+                   <Heart
+                     className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 transition-all duration-200 ${
+                       isFav 
+                         ? "fill-red-500 text-red-500 scale-110" 
+                         : "text-gray-500 hover:text-red-400"
+                     }`}
+                   />
+                 </button>
 
                                  {/* Discount Badge - Only show if newPrice exists and is different from price */}
                  {newPrice && newPrice < price && (
-                   <div className="absolute top-1 md:top-2 left-1 md:left-2 bg-red-600 text-white text-[10px] md:text-xs lg:text-xs font-bold px-1.5 md:px-2 lg:px-2.5 py-0.5 rounded-md shadow-sm">
+                   <div className="absolute top-1 md:top-2 left-1 md:left-2 bg-red-600 text-white text-xs md:text-sm lg:text-sm font-bold px-2 md:px-2.5 lg:px-3 py-1 rounded-md shadow-sm">
                      -{Math.round(((price - newPrice) / price) * 100)}%
                    </div>
                  )}
@@ -224,55 +225,55 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
               {/* Product Content */}
               <CardContent className="p-2 md:p-3 lg:p-4 flex flex-col flex-1">
                                  {/* Mark Label - Always render to maintain consistent height */}
-                 <div className="h-3 md:h-4 lg:h-5 mb-0.5">
+                 <div className="h-4 md:h-5 lg:h-6 mb-1">
                   {item.mark ? (
-                                       <span className="text-gray-400 text-[10px] md:text-[12px] lg:text-xs font-semibold block uppercase tracking-wide">
+                                       <span className="text-gray-400 text-xs md:text-sm lg:text-sm font-semibold block uppercase tracking-wide">
                      {item.mark}
                    </span>
                  ) : (
-                   <span className="text-transparent text-[10px] md:text-[12px] lg:text-xs font-semibold block uppercase tracking-wide">
+                   <span className="text-transparent text-xs md:text-sm lg:text-sm font-semibold block uppercase tracking-wide">
                      &nbsp;
                    </span>
                  )}
                 </div>
                 
                                  {/* Product Name */}
-                 <h3 className="font-semibold text-[10px] md:text-sm lg:text-sm text-gray-900 line-clamp-3 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                 <h3 className="font-semibold text-sm md:text-base lg:text-base text-gray-900 line-clamp-3 leading-tight group-hover:text-blue-600 transition-colors duration-200 mb-2">
                    {item.name}
                  </h3>
                 
                 {/* Price and Button Section */}
                 <div className="mt-auto flex items-end justify-between">
-                  <div className="flex flex-col">
+                                     <div className="flex flex-col">
                                          {newPrice && newPrice < price ? (
                        <>
-                         <span className="text-[10px] md:text-xs lg:text-xs text-gray-400 line-through">{formatPrice(price, selectedCurrency)}</span>
-                         <span className="text-[10px] md:text-sm lg:text-sm font-bold text-blue-600">{formatPrice(newPrice, selectedCurrency)}</span>
+                         <span className="text-xs md:text-sm lg:text-sm text-gray-400 line-through">{formatPrice(price, selectedCurrency)}</span>
+                         <span className="text-sm md:text-base lg:text-base font-bold text-blue-600">{formatPrice(newPrice, selectedCurrency)}</span>
                        </>
                      ) : (
-                       <span className="text-[10px] md:text-sm lg:text-sm font-bold text-gray-900">{formatPrice(price, selectedCurrency)}</span>
+                       <span className="text-sm md:text-base lg:text-base font-bold text-gray-900">{formatPrice(price, selectedCurrency)}</span>
                      )}
                   </div>
                   
-                  {/* Cart Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAdd(item.name);
-                    }}
-                    className={`flex items-center justify-center w-6 h-6 md:w-7 md:h-7 lg:w-10 lg:h-10 rounded-full shadow-md transition-all duration-200 transform ${
-                      isAdded 
-                        ? "bg-green-500 text-white scale-110" 
-                        : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
-                    }`}
-                    aria-label="Add to cart"
-                  >
-                    {isAdded ? (
-                      <div className="w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <ShoppingCart className="w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4" />
-                    )}
-                  </button>
+                                     {/* Cart Button */}
+                   <button
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       handleAdd(item.name);
+                     }}
+                     className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full shadow-md transition-all duration-200 transform ${
+                       isAdded 
+                         ? "bg-green-500 text-white scale-110" 
+                         : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
+                     }`}
+                     aria-label="Add to cart"
+                   >
+                     {isAdded ? (
+                       <div className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                     ) : (
+                       <ShoppingCart className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+                     )}
+                   </button>
                 </div>
               </CardContent>
 
@@ -283,49 +284,49 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
         })}
       </div>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1 mt-6 sm:mt-8">
-          <button
-            onClick={goToPreviousPage}
-            disabled={currentPage === 1}
-            className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
-            aria-label="Previous page"
-          >
-            <ChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
-          </button>
-          
-          <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => goToPage(page)}
-                className={`w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border text-[10px] md:text-xs lg:text-sm font-medium transition-all duration-200 ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white border-blue-600 shadow-md"
-                    : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
-                }`}
-                aria-label={`Go to page ${page}`}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
+             {/* Pagination Controls */}
+       {totalPages > 1 && (
+         <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8">
+           <button
+             onClick={goToPreviousPage}
+             disabled={currentPage === 1}
+             className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
+             aria-label="Previous page"
+           >
+             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
+           </button>
+           
+           <div className="flex items-center gap-2">
+             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+               <button
+                 key={page}
+                 onClick={() => goToPage(page)}
+                 className={`w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg border text-sm md:text-base lg:text-lg font-medium transition-all duration-200 ${
+                   currentPage === page
+                     ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                     : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
+                 }`}
+                 aria-label={`Go to page ${page}`}
+               >
+                 {page}
+               </button>
+             ))}
+           </div>
 
-          <button
-            onClick={goToNextPage}
-            disabled={currentPage === totalPages}
-            className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
-            aria-label="Next page"
-          >
-            <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-          </button>
-        </div>
-      )}
-      {/* Page Info */}
-      <div className="text-center text-[10px] md:text-xs lg:text-sm text-gray-500 mt-4 md:mt-6">
-        Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
-      </div>
+           <button
+             onClick={goToNextPage}
+             disabled={currentPage === totalPages}
+             className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg border border-gray-200 bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
+             aria-label="Next page"
+           >
+             <ChevronRight className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
+           </button>
+         </div>
+       )}
+             {/* Page Info */}
+       <div className="text-center text-sm md:text-base lg:text-lg text-gray-500 mt-4 md:mt-6">
+         Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} items
+       </div>
     </div>
   );
 }
