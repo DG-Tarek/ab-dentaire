@@ -7,7 +7,11 @@ import { PriceFilter } from "@/components/price-filter";
 import { MarkFilter } from "@/components/mark-filter";
 import { SortSelector } from "@/components/sort-selector";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Filter, X, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Filter, X, Search, ArrowUpDown } from "lucide-react";
 import { type SortOption, sortItems } from "@/lib/utils";
 
 
@@ -140,32 +144,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen p-3 md:p-4 lg:p-6 pattern-overlay">
       <div className="w-full max-w-8xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-3 md:gap-6 lg:gap-8">
-                     {/* Mobile Filter Button */}
-           <div className="lg:hidden mb-3 md:mb-4">
-            <Drawer open={isMobileDrawerOpen} onOpenChange={setIsMobileDrawerOpen}>
-              <DrawerTrigger asChild>
-                                 <button className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 bg-white rounded-lg border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors">
-                   <Filter className="w-4 h-4 md:w-5 md:h-5" />
-                   <span className="text-sm md:text-base font-medium">Filtres</span>
-                 </button>
-              </DrawerTrigger>
-              <DrawerContent direction="left" className="bg-white">
-                <div className="p-3 md:p-4 h-full overflow-y-auto">
-                                     <div className="flex items-center justify-between mb-4 md:mb-5">
-                     <h2 className="text-lg md:text-xl font-semibold text-gray-900">Filtres</h2>
-                     <button
-                       onClick={() => setIsMobileDrawerOpen(false)}
-                       className="p-2 hover:bg-gray-100 rounded-lg transition-colors w-10 h-10 md:w-11 md:h-11 flex items-center justify-center"
-                     >
-                       <X className="w-5 h-5 md:w-6 md:h-6 text-gray-500" />
-                     </button>
-                   </div>
-                  <FilterComponents />
-                </div>
-              </DrawerContent>
-            </Drawer>
-          </div>
+                 <div className="flex flex-col lg:flex-row gap-3 md:gap-6 lg:gap-8">
 
           {/* Desktop Sidebar Filters */}
           <div className="hidden lg:block lg:w-64 flex-shrink-0">
@@ -174,44 +153,88 @@ export default function Shop() {
           
                                            {/* Items List */}
             <div className="flex-1">
-                           {/* Search, Sort, and Results Container */}
-              <div className="mb-0 max-w-7xl mx-auto px-2 md:px-3 lg:px-8 bg-white rounded-lg md:rounded-xl border border-gray-200 shadow-sm p-3 md:p-4 lg:p-5 mx-1 md:mx-2 lg:mx-3">
-               {/* Primary Controls Row */}
-               <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-3 md:mb-4">
-                                   {/* Search Input */}
-                  <div className="flex-1 relative">
-                    <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5" />
-                    <input
-                      type="text"
-                      placeholder="Rechercher un service dentaire..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 md:pl-12 pr-3 md:pr-4 py-2 md:py-2.5 lg:py-3 bg-gray-50 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder-gray-400 text-gray-900 text-sm"
-                    />
+              {/* Search, Sort, and Results Container */}
+              <Card className="mb-0">
+                <CardContent className="space-y-4 pt-6">
+                                     {/* Primary Controls Row */}
+                   <div className="flex flex-col md:flex-row gap-4">
+                     {/* Search Input */}
+                     <div className="flex-1 relative">
+                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                       <Input
+                         type="text"
+                         placeholder="Rechercher un service dentaire..."
+                         value={searchQuery}
+                         onChange={(e) => setSearchQuery(e.target.value)}
+                         className="pl-10 pr-10"
+                       />
+                       {searchQuery && (
+                         <button
+                           onClick={() => setSearchQuery("")}
+                           className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors w-8 h-8 flex items-center justify-center"
+                         >
+                           <X className="w-4 h-4" />
+                         </button>
+                       )}
+                     </div>
+                     
+                     {/* Sort and Filter Row */}
+                     <div className="flex gap-2">
+                       {/* Sort Selector */}
+                       <div className="flex-1 md:w-64">
+                         <SortSelector
+                           selectedSort={selectedSort}
+                           onSortChange={setSelectedSort}
+                         />
+                       </div>
+                       
+                       {/* Mobile Filter Button */}
+                       <div className="md:hidden">
+                         <Drawer open={isMobileDrawerOpen} onOpenChange={setIsMobileDrawerOpen}>
+                           <DrawerTrigger asChild>
+                             <button className="flex items-center gap-2 px-3 py-2 bg-white rounded-md border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors h-10">
+                               <Filter className="w-4 h-4" />
+                             </button>
+                           </DrawerTrigger>
+                           <DrawerContent direction="left" className="bg-white">
+                             <div className="p-4 h-full overflow-y-auto">
+                               <div className="flex items-center justify-between mb-4">
+                                 <h2 className="text-lg font-semibold text-gray-900">Filtres</h2>
+                                 <button
+                                   onClick={() => setIsMobileDrawerOpen(false)}
+                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors w-8 h-8 flex items-center justify-center"
+                                 >
+                                   <X className="w-4 h-4 text-gray-500" />
+                                 </button>
+                               </div>
+                               <FilterComponents />
+                             </div>
+                           </DrawerContent>
+                         </Drawer>
+                       </div>
+                     </div>
+                   </div>
+                  
+                  <Separator />
+                  
+                  {/* Results Count */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="text-sm">
+                        {filteredAndSortedItems.length}
+                      </Badge>
+                      <span className="text-sm text-gray-600">
+                        service{filteredAndSortedItems.length !== 1 ? 's' : ''} trouvé{filteredAndSortedItems.length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
                     {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors w-8 h-8 md:w-9 md:h-9 flex items-center justify-center"
-                      >
-                        <X className="w-4 h-4 md:w-5 md:h-5" />
-                      </button>
+                      <Badge variant="outline" className="text-xs">
+                        Recherche: "{searchQuery}"
+                      </Badge>
                     )}
                   </div>
-                 
-                 {/* Sort Selector */}
-                 <div className="w-full md:w-62 h-8 md:h-10 lg:h-11">
-                   <SortSelector
-                     selectedSort={selectedSort}
-                     onSortChange={setSelectedSort}
-                   />
-                 </div>
-               </div>
-               
-                               {/* Results Count */}
-                <div className="text-sm md:text-base lg:text-lg text-gray-500 border-t border-gray-100 pt-2 md:pt-3">
-                  {filteredAndSortedItems.length} service{filteredAndSortedItems.length !== 1 ? 's' : ''} trouvé{filteredAndSortedItems.length !== 1 ? 's' : ''}
-                </div>
-             </div>
+                </CardContent>
+              </Card>
             
             <ItemCardList
               selectedCategory={selectedCategory}

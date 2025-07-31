@@ -109,21 +109,7 @@ export function Header() {
             })}
           </div>
 
-          {/* Mobile Navigation - Simple Shop Button */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => router.push('/shop')}
-              className={cn(
-                "flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-200",
-                pathname === '/shop'
-                  ? "text-blue-600 bg-blue-50" 
-                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-              )}
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span className="font-medium text-sm">Shop</span>
-            </button>
-          </div>
+
 
           {/* Right: Cart */}
           <div className="flex items-center">
