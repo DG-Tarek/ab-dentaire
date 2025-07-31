@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
-import { BottomNavigation } from "@/components/bottom-navigation";
-import { ContactUsFooter } from "@/components/contact-us-footer";
 import { CartProvider } from "@/components/cart-context";
 import { CurrencyProvider } from "@/components/currency-context";
+import { ConditionalFooter } from "@/components/conditional-footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,8 +38,7 @@ export default function RootLayout({
               <main className="pb-36 lg:pb-0 flex-1">
                 {children}
               </main>
-              <ContactUsFooter />
-              <BottomNavigation />
+              <ConditionalFooter />
             </div>
           </CurrencyProvider>
         </CartProvider>
