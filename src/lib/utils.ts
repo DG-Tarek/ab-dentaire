@@ -49,3 +49,14 @@ export function sortItems<T extends { name: string; price: number; rating?: numb
       return sortedItems
   }
 }
+
+// Currency types and constants
+export type Currency = 'DZD' | 'EUR' | 'USD';
+
+export const CURRENCY = {
+  DZD: 'DZD' as Currency,
+  EUR: 'EUR' as Currency,
+  USD: 'USD' as Currency,
+} as const;
+
+export const DEFAULT_CURRENCY: Currency = 'DZD';

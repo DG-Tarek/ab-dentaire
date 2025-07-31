@@ -229,7 +229,7 @@ export default function Shop() {
                     </div>
                     {searchQuery && (
                       <Badge variant="outline" className="text-xs">
-                        Recherche: "{searchQuery}"
+                        Recherche: &quot;{searchQuery}&quot;
                       </Badge>
                     )}
                   </div>

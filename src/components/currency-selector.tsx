@@ -22,7 +22,7 @@ export function CurrencySelector({
         onChange={(e) => onCurrencyChange(e.target.value as Currency)}
         className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
-        <option value={CURRENCY.DA}>DA (Dinar Algérien)</option>
+        <option value={CURRENCY.DZD}>DA (Dinar Algérien)</option>
         <option value={CURRENCY.EUR}>€ (Euro)</option>
         <option value={CURRENCY.USD}>$ (Dollar US)</option>
       </select>
