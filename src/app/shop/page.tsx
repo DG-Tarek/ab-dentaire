@@ -16,20 +16,42 @@ import { type SortOption, sortItems } from "@/lib/utils";
 
 
 interface Item {
-  id: string;
-  img: string;
-  name: string;
-  description: string;
-  price: number;
-  newPrice: number;
-  category: string;
-  mark?: string;
-  rating?: number;
+  id?: string;              // Firestore document ID (auto-generated)
+  ref: string;              // Unique product reference code
+  image: string;            // URL to product image
+  name: string;             // Product name
+  description: string;      // Product description
+  mark: string;             // Brand or manufacturer
+  price: number;            // Original price
+  new_price?: number;       // Discounted price, optional if not on sale
+  stock: number;            // Available stock quantity
+  tags: string[];           // List of keywords or categories
+  createdAt?: Date;         // Timestamp for creation
+  updatedAt?: Date;         // Timestamp for last update
+}
+
+interface CartItem {
+  itemId: string;            // Firestore Item document ID
+  ref: string;               // Product reference code
+  name: string;              // Product name
+  image: string;             // Product image URL
+  price: number;             // Price per unit (original or discounted)
+  quantity: number;          // Quantity selected
+  subtotal: number;          // price * quantity (calculated at time of checkout)
+}
+
+interface Cart {
+  userId?: string;           // Optional user ID (for logged-in users)
+  items: CartItem[];         // List of products to buy
+  total: number;             // Total cost = sum of subtotals
+  createdAt: Date;           // Cart creation time (or start of checkout)
+  updatedAt?: Date;          // Last update (e.g. added/removed items)
 }
 
 export default function Shop() {
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
   const [items, setItems] = React.useState<Item[]>([]);
+  const [categories, setCategories] = React.useState<{ id: string; name: string; count: number }[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [minPrice, setMinPrice] = React.useState(0);
   const [maxPrice, setMaxPrice] = React.useState(2000);
@@ -39,36 +61,42 @@ export default function Shop() {
   const [selectedSort, setSelectedSort] = React.useState<SortOption>("name-asc");
 
   React.useEffect(() => {
-    fetch("/api/items")
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
-        setLoading(false);
+    // Fetch items and categories in parallel
+    Promise.all([
+      fetch("/api/items").then((res) => res.json()),
+      fetch("/api/categories").then((res) => res.json())
+    ]).then(([itemsData, categoriesData]) => {
+      setItems(itemsData);
+      
+      // Map categories to include counts from items
+      const categoryMap = new Map<string, number>();
+      itemsData.forEach((item: Item) => {
+        // Use the first tag as the primary category for filtering
+        const primaryCategory = item.tags[0] || 'uncategorized';
+        const count = categoryMap.get(primaryCategory) || 0;
+        categoryMap.set(primaryCategory, count + 1);
       });
+      
+      // Create categories with counts
+      const categoriesWithCounts = categoriesData.map((cat: { id: string; name: string }) => ({
+        id: cat.id,
+        name: cat.name,
+        count: categoryMap.get(cat.id) || 0
+      }));
+      
+      setCategories(categoriesWithCounts);
+      setLoading(false);
+    });
   }, []);
 
-  // Get unique categories with counts
-  const categories = React.useMemo(() => {
-    const categoryMap = new Map<string, number>();
-    items.forEach(item => {
-      const count = categoryMap.get(item.category) || 0;
-      categoryMap.set(item.category, count + 1);
-    });
-    return Array.from(categoryMap.entries()).map(([id, count]) => ({
-      id,
-      name: `Catégorie ${id}`,
-      count
-    }));
-  }, [items]);
+
 
   // Get unique marks with counts
   const marks = React.useMemo(() => {
     const markMap = new Map<string, number>();
     items.forEach(item => {
-      if (item.mark) {
-        const count = markMap.get(item.mark) || 0;
-        markMap.set(item.mark, count + 1);
-      }
+      const count = markMap.get(item.mark) || 0;
+      markMap.set(item.mark, count + 1);
     });
     return Array.from(markMap.entries()).map(([id, count]) => ({
       id,
@@ -94,9 +122,9 @@ export default function Shop() {
   // Filtered and sorted items for ItemCardList
   const filteredAndSortedItems = React.useMemo(() => {
     const filtered = items.filter(item => {
-      const inCategory = !selectedCategory || item.category === selectedCategory;
+      const inCategory = !selectedCategory || item.tags.includes(selectedCategory);
       const inPrice = item.price >= minPrice && item.price <= maxPrice;
-      const inMark = selectedMarks.length === 0 || (item.mark && selectedMarks.includes(item.mark));
+      const inMark = selectedMarks.length === 0 || selectedMarks.includes(item.mark);
       const inSearch = !searchQuery || 
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase());

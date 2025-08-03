@@ -3,20 +3,24 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight, ShoppingCart, X } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCurrency } from "./currency-context";
 
 
 interface Item {
-  id: string;
-  img: string;
-  name: string;
-  price: number;
-  newPrice?: number;
-  category: string;
-  mark?: string;
-  rating?: number;
+  id?: string;              // Firestore document ID (auto-generated)
+  ref: string;              // Unique product reference code
+  image: string;            // URL to product image
+  name: string;             // Product name
+  description: string;      // Product description
+  mark: string;             // Brand or manufacturer
+  price: number;            // Original price
+  new_price?: number;       // Discounted price, optional if not on sale
+  stock: number;            // Available stock quantity
+  tags: string[];           // List of keywords or categories
+  createdAt?: Date;         // Timestamp for creation
+  updatedAt?: Date;         // Timestamp for last update
 }
 
 // Custom hook to get responsive items per page
@@ -108,7 +112,7 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
   // If using externalItems, don't filter by category here
   const filteredItems = externalItems
     ? items
-    : (selectedCategory ? items.filter(item => item.category === selectedCategory) : items);
+    : (selectedCategory ? items.filter(item => item.tags.includes(selectedCategory)) : items);
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
@@ -165,9 +169,9 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
         {currentItems.map((item, idx) => {
           const isFav = favorites.has(item.name);
           const isAdded = added.has(item.name);
-          const isImageLoaded = loadedImages.has(item.img);
+          const isImageLoaded = loadedImages.has(item.image);
           const price = item.price;
-          const newPrice = item.newPrice;
+          const newPrice = item.new_price;
           return (
             <Card
               key={idx}
@@ -183,13 +187,13 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                   </div>
                 )}
                 <img
-                  src={item.img}
+                  src={item.image}
                   alt={item.name}
                   className={`w-full h-full object-cover transition-all duration-500 ${
                     isImageLoaded ? 'opacity-100' : 'opacity-0'
                   }`}
-                  onLoad={() => handleImageLoad(item.img)}
-                  onError={() => handleImageError(item.img)}
+                  onLoad={() => handleImageLoad(item.image)}
+                  onError={() => handleImageError(item.image)}
                   loading="lazy"
                 />
                 
@@ -218,6 +222,13 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                  {newPrice && newPrice < price && (
                    <div className="absolute top-1 md:top-2 left-1 md:left-2 bg-red-600 text-white text-xs md:text-sm lg:text-sm font-bold px-2 md:px-2.5 lg:px-3 py-1 rounded-md shadow-sm">
                      -{Math.round(((price - newPrice) / price) * 100)}%
+                   </div>
+                 )}
+
+                                 {/* Out of Stock Badge - Show when stock is 0 */}
+                 {item.stock === 0 && (
+                   <div className="absolute top-1 md:top-2 left-1 md:left-2 bg-gray-600 text-white text-xs md:text-sm lg:text-sm font-bold px-2 md:px-2.5 lg:px-3 py-1 rounded-md shadow-sm">
+                     Rupture de stock
                    </div>
                  )}
               </div>
@@ -259,16 +270,23 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                    <button
                      onClick={(e) => {
                        e.stopPropagation();
-                       handleAdd(item.name);
+                       if (item.stock > 0) {
+                         handleAdd(item.name);
+                       }
                      }}
+                     disabled={item.stock === 0}
                      className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full shadow-md transition-all duration-200 transform ${
-                       isAdded 
-                         ? "bg-green-500 text-white scale-110" 
-                         : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
+                       item.stock === 0
+                         ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
+                         : isAdded 
+                           ? "bg-green-500 text-white scale-110" 
+                           : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
                      }`}
-                     aria-label="Add to cart"
+                     aria-label={item.stock === 0 ? "Out of stock" : "Add to cart"}
                    >
-                     {isAdded ? (
+                     {item.stock === 0 ? (
+                       <X className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+                     ) : isAdded ? (
                        <div className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                      ) : (
                        <ShoppingCart className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
