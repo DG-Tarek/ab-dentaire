@@ -9,6 +9,7 @@ import { Zoom } from "@/components/ui/zoom"
 import { ArrowLeft, Heart, Share2, Star, ShoppingCart, X } from "lucide-react"
 import { formatPrice } from "@/lib/utils"
 import { useCurrency } from "@/components/currency-context"
+import { useCart } from "@/components/cart-context"
 import { RESPONSIVE_CLASSES, COMPONENT_SCALING } from "@/lib/responsive-scaling"
 
 interface Item {
@@ -30,6 +31,7 @@ export default function CardDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { selectedCurrency } = useCurrency()
+  const { addToCart, isItemInCart } = useCart()
   const [item, setItem] = useState<Item | null>(null)
   const [loading, setLoading] = useState(true)
   const [isFavorite, setIsFavorite] = useState(false)
@@ -77,9 +79,14 @@ export default function CardDetailPage() {
   }
 
   const handleAddToCart = () => {
-    if (item.stock > 0) {
-      // Add to cart logic here
-      console.log(`Added ${quantity} of ${item.name} to cart`)
+    if (item && item.stock > 0) {
+      addToCart({
+        itemId: item.id || '',
+        ref: item.ref,
+        name: item.name,
+        image: item.image,
+        price: item.new_price && item.new_price < item.price ? item.new_price : item.price,
+      }, quantity)
     }
   }
 
@@ -407,13 +414,20 @@ export default function CardDetailPage() {
                   className={`flex-1 py-3 lg:py-4 text-sm lg:text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300 ease-in-out border-0 h-12 lg:h-14 ${
                     item.stock === 0
                       ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
-                      : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+                      : isItemInCart(item.id || '')
+                        ? "bg-green-500 hover:bg-green-600 text-white"
+                        : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
                   }`}
                 >
                   {item.stock === 0 ? (
                     <>
                       <X className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
                       Rupture de stock
+                    </>
+                  ) : isItemInCart(item.id || '') ? (
+                    <>
+                      <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3 transition-transform duration-300 group-hover:scale-110" />
+                      Déjà dans le panier
                     </>
                   ) : (
                     <>

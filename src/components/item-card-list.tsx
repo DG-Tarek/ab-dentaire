@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, ChevronLeft, ChevronRight, ShoppingCart, X } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCurrency } from "./currency-context";
+import { useCart } from "./cart-context";
 
 
 interface Item {
@@ -37,6 +38,7 @@ interface ItemCardListProps {
 export function ItemCardList({ selectedCategory, items: externalItems }: ItemCardListProps) {
   const router = useRouter();
   const { selectedCurrency } = useCurrency();
+  const { addToCart, isItemInCart } = useCart();
   const [items, setItems] = React.useState<Item[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [favorites, setFavorites] = React.useState<Set<string>>(new Set());
@@ -74,16 +76,24 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
     });
   };
 
-  const handleAdd = (name: string) => {
+  const handleAdd = (item: Item) => {
+    addToCart({
+      itemId: item.id || '',
+      ref: item.ref,
+      name: item.name,
+      image: item.image,
+      price: item.new_price && item.new_price < item.price ? item.new_price : item.price,
+    });
+    
     setAdded((prev) => {
       const newSet = new Set(prev);
-      if (!newSet.has(name)) newSet.add(name);
+      if (!newSet.has(item.id || '')) newSet.add(item.id || '');
       return newSet;
     });
     setTimeout(() => {
       setAdded((prev) => {
         const newSet = new Set(prev);
-        newSet.delete(name);
+        newSet.delete(item.id || '');
         return newSet;
       });
     }, 700);
@@ -271,18 +281,20 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
                      onClick={(e) => {
                        e.stopPropagation();
                        if (item.stock > 0) {
-                         handleAdd(item.name);
+                         handleAdd(item);
                        }
                      }}
                      disabled={item.stock === 0}
                      className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full shadow-md transition-all duration-200 transform ${
                        item.stock === 0
                          ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
-                         : isAdded 
-                           ? "bg-green-500 text-white scale-110" 
-                           : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
+                         : isItemInCart(item.id || '')
+                           ? "bg-green-500 text-white scale-110 hover:scale-105"
+                           : isAdded 
+                             ? "bg-green-500 text-white scale-110" 
+                             : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white hover:scale-105"
                      }`}
-                     aria-label={item.stock === 0 ? "Out of stock" : "Add to cart"}
+                     aria-label={item.stock === 0 ? "Out of stock" : isItemInCart(item.id || '') ? "Item in cart" : "Add to cart"}
                    >
                      {item.stock === 0 ? (
                        <X className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />

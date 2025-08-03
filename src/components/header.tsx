@@ -38,31 +38,30 @@ const navigationItems = [
 ]
 
 export function Header() {
-  const { isCartOpen, openCart, closeCart } = useCart()
+  const { 
+    isCartOpen, 
+    openCart, 
+    closeCart, 
+    cart, 
+    removeFromCart, 
+    updateQuantity, 
+    getCartItemCount, 
+    getCartTotal 
+  } = useCart()
   const router = useRouter()
   const pathname = usePathname()
   const { selectedCurrency } = useCurrency()
 
-  // Mock cart data - in a real app this would come from context/state
-  const cartItems = [
-    {
-      id: 1,
-      name: "Blanchiment",
-      price: 80,
-      quantity: 2,
-      image: "https://example.com/images/blanchiment.jpg"
-    },
-    {
-      id: 2,
-      name: "Implant Dentaire",
-      price: 399,
-      quantity: 1,
-      image: "https://example.com/images/implant.jpg"
-    }
-  ]
+  const totalItems = getCartItemCount()
+  const totalPrice = getCartTotal()
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
-  const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const handleQuantityChange = (itemId: string, newQuantity: number) => {
+    updateQuantity(itemId, newQuantity)
+  }
+
+  const handleRemoveItem = (itemId: string) => {
+    removeFromCart(itemId)
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
@@ -167,7 +166,7 @@ export function Header() {
 
                 {/* Cart Items */}
                 <div className="flex-1 overflow-y-auto p-6">
-                  {cartItems.length === 0 ? (
+                  {cart.items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
                       <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                         <ShoppingCart className="w-10 h-10 text-gray-400" />
@@ -183,19 +182,25 @@ export function Header() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {cartItems.map((item) => (
-                        <div key={item.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-2xl border border-gray-200">
+                      {cart.items.map((item) => (
+                        <div key={item.itemId} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-2xl border border-gray-200">
                           <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                            <ShoppingCart className="w-7 h-7 text-blue-600" />
+                            <img 
+                              src={item.image} 
+                              alt={item.name}
+                              className="w-full h-full object-cover rounded-xl"
+                            />
                           </div>
                           <div className="flex-1 min-w-0">
                             <h4 className="text-xs font-semibold text-gray-900 truncate">{item.name}</h4>
+                            <p className="text-xs text-gray-500 font-medium">Réf: {item.ref}</p>
                             <p className="text-xs text-gray-500 font-medium">{formatPrice(item.price, selectedCurrency)}</p>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Button 
                               variant="ghost" 
                               size="icon" 
+                              onClick={() => handleQuantityChange(item.itemId, item.quantity - 1)}
                               className="w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors duration-200"
                             >
                               <Minus className="w-3 h-3" />
@@ -204,6 +209,7 @@ export function Header() {
                             <Button 
                               variant="ghost" 
                               size="icon" 
+                              onClick={() => handleQuantityChange(item.itemId, item.quantity + 1)}
                               className="w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors duration-200"
                             >
                               <Plus className="w-3 h-3" />
@@ -212,6 +218,7 @@ export function Header() {
                           <Button 
                             variant="ghost" 
                             size="icon" 
+                            onClick={() => handleRemoveItem(item.itemId)}
                             className="w-8 h-8 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors duration-200"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -223,14 +230,20 @@ export function Header() {
                 </div>
 
                 {/* Footer */}
-                {cartItems.length > 0 && (
+                {cart.items.length > 0 && (
                   <div className="border-t border-gray-200 p-6 bg-gray-50">
                     <div className="flex justify-between items-center mb-6">
                       <span className="text-sm font-semibold text-gray-900">Total</span>
                       <span className="text-lg font-bold text-blue-600">{formatPrice(totalPrice, selectedCurrency)}</span>
                     </div>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 rounded-xl mb-3">
-                      Procéder au paiement
+                    <Button 
+                      onClick={() => {
+                        closeCart()
+                        router.push('/cart')
+                      }}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 rounded-xl mb-3"
+                    >
+                      Voir le panier complet
                     </Button>
                     <Button 
                       variant="ghost" 

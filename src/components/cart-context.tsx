@@ -32,6 +32,7 @@ interface CartContextType {
   clearCart: () => void
   getCartItemCount: () => number
   getCartTotal: () => number
+  isItemInCart: (itemId: string) => boolean
 }
 
 const CART_STORAGE_KEY = 'ab-dentaire-cart'
@@ -196,6 +197,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return cart.total
   }
 
+  const isItemInCart = (itemId: string) => {
+    return cart.items.some(item => item.itemId === itemId)
+  }
+
   return (
     <CartContext.Provider value={{ 
       isCartOpen, 
@@ -208,7 +213,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       updateQuantity,
       clearCart,
       getCartItemCount,
-      getCartTotal
+      getCartTotal,
+      isItemInCart
     }}>
       {children}
     </CartContext.Provider>
