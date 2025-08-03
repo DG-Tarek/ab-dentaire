@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 interface CategoryFilterProps {
   selectedCategory: string | null;
   onCategoryChange: (category: string | null) => void;
-  categories: { id: string; name: string; count: number }[];
+  categories: { name: string; count: number }[];
 }
 
 export function CategoryFilter({ selectedCategory, onCategoryChange, categories }: CategoryFilterProps) {
@@ -32,10 +32,10 @@ export function CategoryFilter({ selectedCategory, onCategoryChange, categories 
         {/* Individual Categories */}
         {categories.map((category) => (
           <button
-            key={category.id}
-            onClick={() => onCategoryChange(category.id)}
+            key={category.name}
+            onClick={() => onCategoryChange(category.name)}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-between ${
-              selectedCategory === category.id
+              selectedCategory === category.name
                 ? "bg-blue-50 text-blue-700 border border-blue-200"
                 : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
             }`}

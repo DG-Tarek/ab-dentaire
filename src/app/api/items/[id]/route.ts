@@ -10,6 +10,7 @@ const items = [
     price: 100,
     stock: 15,
     mark: "Premium",
+    category: "Services Spécialisés",
     tags: ["A"],
     createdAt: new Date("2024-01-01"),
     updatedAt: new Date("2024-01-01")
@@ -24,6 +25,7 @@ const items = [
     new_price: 399,
     stock: 0,
     mark: "Standard",
+    category: "Chirurgie Dentaire",
     tags: ["B"],
     createdAt: new Date("2024-01-02"),
     updatedAt: new Date("2024-01-02")
@@ -37,6 +39,7 @@ const items = [
     price: 600,
     stock: 12,
     mark: "Premium",
+    category: "Orthodontie",
     tags: ["C"],
     createdAt: new Date("2024-01-03"),
     updatedAt: new Date("2024-01-03")
@@ -51,6 +54,7 @@ const items = [
     new_price: 50,
     stock: 25,
     mark: "Basic",
+    category: "Soins Préventifs",
     tags: ["A"],
     createdAt: new Date("2024-01-04"),
     updatedAt: new Date("2024-01-04")
@@ -64,6 +68,7 @@ const items = [
     price: 800,
     stock: 6,
     mark: "Luxury",
+    category: "Services Spécialisés",
     tags: ["E"],
     createdAt: new Date("2024-01-05"),
     updatedAt: new Date("2024-01-05")
@@ -78,6 +83,7 @@ const items = [
     new_price: 180,
     stock: 10,
     mark: "Standard",
+    category: "Chirurgie Dentaire",
     tags: ["C"],
     createdAt: new Date("2024-01-06"),
     updatedAt: new Date("2024-01-06")
@@ -92,6 +98,7 @@ const items = [
     new_price: 650,
     stock: 0,
     mark: "Premium",
+    category: "Prothèses",
     tags: ["B"],
     createdAt: new Date("2024-01-07"),
     updatedAt: new Date("2024-01-07")
@@ -106,6 +113,7 @@ const items = [
     new_price: 450,
     stock: 18,
     mark: "Standard",
+    category: "Prothèses",
     tags: ["D"],
     createdAt: new Date("2024-01-08"),
     updatedAt: new Date("2024-01-08")
@@ -120,6 +128,7 @@ const items = [
     new_price: 100,
     stock: 30,
     mark: "Basic",
+    category: "Services Spécialisés",
     tags: ["D"],
     createdAt: new Date("2024-01-09"),
     updatedAt: new Date("2024-01-09")
@@ -134,6 +143,7 @@ const items = [
     new_price: 75,
     stock: 20,
     mark: "Basic",
+    category: "Soins Préventifs",
     tags: ["A"],
     createdAt: new Date("2024-01-10"),
     updatedAt: new Date("2024-01-10")
@@ -148,6 +158,7 @@ const items = [
     new_price: 40,
     stock: 35,
     mark: "Basic",
+    category: "Services Spécialisés",
     tags: ["E"],
     createdAt: new Date("2024-01-11"),
     updatedAt: new Date("2024-01-11")
@@ -162,6 +173,7 @@ const items = [
     new_price: 70,
     stock: 14,
     mark: "Standard",
+    category: "Chirurgie Dentaire",
     tags: ["C"],
     createdAt: new Date("2024-01-12"),
     updatedAt: new Date("2024-01-12")
@@ -176,6 +188,7 @@ const items = [
     new_price: 280,
     stock: 7,
     mark: "Standard",
+    category: "Prothèses",
     tags: ["D"],
     createdAt: new Date("2024-01-13"),
     updatedAt: new Date("2024-01-13")
@@ -190,6 +203,7 @@ const items = [
     new_price: 220,
     stock: 11,
     mark: "Standard",
+    category: "Prothèses",
     tags: ["C"],
     createdAt: new Date("2024-01-14"),
     updatedAt: new Date("2024-01-14")
@@ -204,6 +218,7 @@ const items = [
     new_price: 120,
     stock: 16,
     mark: "Standard",
+    category: "Chirurgie Dentaire",
     tags: ["B"],
     createdAt: new Date("2024-01-15"),
     updatedAt: new Date("2024-01-15")
@@ -218,6 +233,7 @@ const items = [
     new_price: 60,
     stock: 22,
     mark: "Basic",
+    category: "Soins Préventifs",
     tags: ["A"],
     createdAt: new Date("2024-01-16"),
     updatedAt: new Date("2024-01-16")
@@ -232,6 +248,7 @@ const items = [
     new_price: 90,
     stock: 9,
     mark: "Standard",
+    category: "Services Spécialisés",
     tags: ["E"],
     createdAt: new Date("2024-01-17"),
     updatedAt: new Date("2024-01-17")
@@ -246,6 +263,7 @@ const items = [
     new_price: 1350,
     stock: 3,
     mark: "Luxury",
+    category: "Services Spécialisés",
     tags: ["E"],
     createdAt: new Date("2024-01-18"),
     updatedAt: new Date("2024-01-18")
@@ -260,6 +278,7 @@ const items = [
     new_price: 25,
     stock: 40,
     mark: "Basic",
+    category: "Services Spécialisés",
     tags: ["A"],
     createdAt: new Date("2024-01-19"),
     updatedAt: new Date("2024-01-19")
@@ -274,6 +293,7 @@ const items = [
     new_price: 50,
     stock: 50,
     mark: "Basic",
+    category: "Soins Préventifs",
     tags: ["A"],
     createdAt: new Date("2024-01-20"),
     updatedAt: new Date("2024-01-20")
@@ -288,6 +308,7 @@ const items = [
     new_price: 380,
     stock: 13,
     mark: "Standard",
+    category: "Chirurgie Dentaire",
     tags: ["C"],
     createdAt: new Date("2024-01-21"),
     updatedAt: new Date("2024-01-21")
@@ -302,6 +323,7 @@ const items = [
     new_price: 130,
     stock: 19,
     mark: "Standard",
+    category: "Prothèses",
     tags: ["D"],
     createdAt: new Date("2024-01-22"),
     updatedAt: new Date("2024-01-22")
@@ -316,6 +338,7 @@ const items = [
     new_price: 200,
     stock: 17,
     mark: "Premium",
+    category: "Services Spécialisés",
     tags: ["A"],
     createdAt: new Date("2024-01-23"),
     updatedAt: new Date("2024-01-23")
@@ -330,6 +353,7 @@ const items = [
     new_price: 100,
     stock: 21,
     mark: "Standard",
+    category: "Orthodontie",
     tags: ["C"],
     createdAt: new Date("2024-01-24"),
     updatedAt: new Date("2024-01-24")
@@ -344,6 +368,7 @@ const items = [
     new_price: 95,
     stock: 28,
     mark: "Standard",
+    category: "Soins Préventifs",
     tags: ["B"],
     createdAt: new Date("2024-01-25"),
     updatedAt: new Date("2024-01-25")

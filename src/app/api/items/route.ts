@@ -11,6 +11,7 @@ const items = [
     stock: 15,
     mark: "Premium",
     tags: ["A"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-01"),
     updatedAt: new Date("2024-01-01")
   },
@@ -25,6 +26,7 @@ const items = [
     stock: 0,
     mark: "Standard",
     tags: ["B"],
+    category: "Chirurgie Dentaire",
     createdAt: new Date("2024-01-02"),
     updatedAt: new Date("2024-01-02")
   },
@@ -38,6 +40,7 @@ const items = [
     stock: 12,
     mark: "Premium",
     tags: ["C"],
+    category: "Orthodontie",
     createdAt: new Date("2024-01-03"),
     updatedAt: new Date("2024-01-03")
   },
@@ -52,6 +55,7 @@ const items = [
     stock: 25,
     mark: "Basic",
     tags: ["A"],
+    category: "Soins Préventifs",
     createdAt: new Date("2024-01-04"),
     updatedAt: new Date("2024-01-04")
   },
@@ -65,6 +69,7 @@ const items = [
     stock: 6,
     mark: "Luxury",
     tags: ["E"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-05"),
     updatedAt: new Date("2024-01-05")
   },
@@ -79,6 +84,7 @@ const items = [
     stock: 10,
     mark: "Standard",
     tags: ["C"],
+    category: "Chirurgie Dentaire",
     createdAt: new Date("2024-01-06"),
     updatedAt: new Date("2024-01-06")
   },
@@ -93,6 +99,7 @@ const items = [
     stock: 0,
     mark: "Premium",
     tags: ["B"],
+    category: "Prothèses",
     createdAt: new Date("2024-01-07"),
     updatedAt: new Date("2024-01-07")
   },
@@ -107,6 +114,7 @@ const items = [
     stock: 18,
     mark: "Standard",
     tags: ["D"],
+    category: "Prothèses",
     createdAt: new Date("2024-01-08"),
     updatedAt: new Date("2024-01-08")
   },
@@ -121,6 +129,7 @@ const items = [
     stock: 30,
     mark: "Basic",
     tags: ["D"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-09"),
     updatedAt: new Date("2024-01-09")
   },
@@ -135,6 +144,7 @@ const items = [
     stock: 20,
     mark: "Basic",
     tags: ["A"],
+    category: "Soins Préventifs",
     createdAt: new Date("2024-01-10"),
     updatedAt: new Date("2024-01-10")
   },
@@ -149,6 +159,7 @@ const items = [
     stock: 35,
     mark: "Basic",
     tags: ["E"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-11"),
     updatedAt: new Date("2024-01-11")
   },
@@ -163,6 +174,7 @@ const items = [
     stock: 14,
     mark: "Standard",
     tags: ["C"],
+    category: "Chirurgie Dentaire",
     createdAt: new Date("2024-01-12"),
     updatedAt: new Date("2024-01-12")
   },
@@ -177,6 +189,7 @@ const items = [
     stock: 7,
     mark: "Standard",
     tags: ["D"],
+    category: "Prothèses",
     createdAt: new Date("2024-01-13"),
     updatedAt: new Date("2024-01-13")
   },
@@ -191,6 +204,7 @@ const items = [
     stock: 11,
     mark: "Standard",
     tags: ["C"],
+    category: "Prothèses",
     createdAt: new Date("2024-01-14"),
     updatedAt: new Date("2024-01-14")
   },
@@ -205,6 +219,7 @@ const items = [
     stock: 16,
     mark: "Standard",
     tags: ["B"],
+    category: "Chirurgie Dentaire",
     createdAt: new Date("2024-01-15"),
     updatedAt: new Date("2024-01-15")
   },
@@ -219,6 +234,7 @@ const items = [
     stock: 22,
     mark: "Basic",
     tags: ["A"],
+    category: "Soins Préventifs",
     createdAt: new Date("2024-01-16"),
     updatedAt: new Date("2024-01-16")
   },
@@ -233,6 +249,7 @@ const items = [
     stock: 9,
     mark: "Standard",
     tags: ["E"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-17"),
     updatedAt: new Date("2024-01-17")
   },
@@ -247,6 +264,7 @@ const items = [
     stock: 3,
     mark: "Luxury",
     tags: ["E"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-18"),
     updatedAt: new Date("2024-01-18")
   },
@@ -261,6 +279,7 @@ const items = [
     stock: 40,
     mark: "Basic",
     tags: ["A"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-19"),
     updatedAt: new Date("2024-01-19")
   },
@@ -275,6 +294,7 @@ const items = [
     stock: 50,
     mark: "Basic",
     tags: ["A"],
+    category: "Soins Préventifs",
     createdAt: new Date("2024-01-20"),
     updatedAt: new Date("2024-01-20")
   },
@@ -289,6 +309,7 @@ const items = [
     stock: 13,
     mark: "Standard",
     tags: ["C"],
+    category: "Chirurgie Dentaire",
     createdAt: new Date("2024-01-21"),
     updatedAt: new Date("2024-01-21")
   },
@@ -303,6 +324,7 @@ const items = [
     stock: 19,
     mark: "Standard",
     tags: ["D"],
+    category: "Prothèses",
     createdAt: new Date("2024-01-22"),
     updatedAt: new Date("2024-01-22")
   },
@@ -317,6 +339,7 @@ const items = [
     stock: 17,
     mark: "Premium",
     tags: ["A"],
+    category: "Services Spécialisés",
     createdAt: new Date("2024-01-23"),
     updatedAt: new Date("2024-01-23")
   },
@@ -331,6 +354,7 @@ const items = [
     stock: 21,
     mark: "Standard",
     tags: ["C"],
+    category: "Orthodontie",
     createdAt: new Date("2024-01-24"),
     updatedAt: new Date("2024-01-24")
   },
@@ -345,6 +369,7 @@ const items = [
     stock: 28,
     mark: "Standard",
     tags: ["B"],
+    category: "Soins Préventifs",
     createdAt: new Date("2024-01-25"),
     updatedAt: new Date("2024-01-25")
   }

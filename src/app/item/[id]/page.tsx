@@ -19,6 +19,7 @@ interface Item {
   name: string;             // Product name
   description: string;      // Product description
   mark: string;             // Brand or manufacturer
+  category: string;         // Product category
   price: number;            // Original price
   new_price?: number;       // Discounted price, optional if not on sale
   stock: number;            // Available stock quantity
@@ -158,11 +159,11 @@ export default function CardDetailPage() {
           <div className="space-y-6">
             {/* Mark and Category Badges */}
             <div className="flex flex-wrap gap-2">
-              <Badge className="bg-purple-100 text-purple-800 border-0 text-sm sm:text-base px-3 py-1">
+              <Badge className="bg-purple-100 text-purple-800 border-0 text-sm sm:text-base px-3 py-1 hover:bg-purple-100">
                 {item.mark}
               </Badge>
-              <Badge className="bg-blue-100 text-blue-800 border-0 text-sm sm:text-base px-3 py-1">
-                {item.tags[0] || 'Catégorie'}
+              <Badge className="bg-blue-100 text-blue-800 border-0 text-sm sm:text-base px-3 py-1 hover:bg-blue-100">
+                {item.category}
               </Badge>
             </div>
 
@@ -306,11 +307,11 @@ export default function CardDetailPage() {
             {/* Mark, Category and Title */}
             <div className="space-y-4">
               <div className="flex flex-wrap gap-3">
-                <Badge className="bg-purple-100 text-purple-800 border-0 text-base px-4 py-2">
+                <Badge className="bg-purple-100 text-purple-800 border-0 text-base px-4 py-2 hover:bg-purple-100">
                   {item.mark}
                 </Badge>
-                <Badge className="bg-blue-100 text-blue-800 border-0 text-base px-4 py-2">
-                  {item.tags[0] || 'Catégorie'}
+                <Badge className="bg-blue-100 text-blue-800 border-0 text-base px-4 py-2 hover:bg-blue-100">
+                  {item.category}
                 </Badge>
               </div>
               <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight">

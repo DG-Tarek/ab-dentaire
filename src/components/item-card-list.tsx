@@ -16,6 +16,7 @@ interface Item {
   name: string;             // Product name
   description: string;      // Product description
   mark: string;             // Brand or manufacturer
+  category: string;         // Product category
   price: number;            // Original price
   new_price?: number;       // Discounted price, optional if not on sale
   stock: number;            // Available stock quantity

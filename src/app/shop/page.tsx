@@ -22,6 +22,7 @@ interface Item {
   name: string;             // Product name
   description: string;      // Product description
   mark: string;             // Brand or manufacturer
+  category: string;         // Product category
   price: number;            // Original price
   new_price?: number;       // Discounted price, optional if not on sale
   stock: number;            // Available stock quantity
@@ -71,17 +72,16 @@ export default function Shop() {
       // Map categories to include counts from items
       const categoryMap = new Map<string, number>();
       itemsData.forEach((item: Item) => {
-        // Use the first tag as the primary category for filtering
-        const primaryCategory = item.tags[0] || 'uncategorized';
-        const count = categoryMap.get(primaryCategory) || 0;
-        categoryMap.set(primaryCategory, count + 1);
+        // Use the category field for filtering
+        const category = item.category || 'uncategorized';
+        const count = categoryMap.get(category) || 0;
+        categoryMap.set(category, count + 1);
       });
       
       // Create categories with counts
-      const categoriesWithCounts = categoriesData.map((cat: { id: string; name: string }) => ({
-        id: cat.id,
+      const categoriesWithCounts = categoriesData.map((cat: { name: string }) => ({
         name: cat.name,
-        count: categoryMap.get(cat.id) || 0
+        count: categoryMap.get(cat.name) || 0
       }));
       
       setCategories(categoriesWithCounts);
@@ -122,7 +122,7 @@ export default function Shop() {
   // Filtered and sorted items for ItemCardList
   const filteredAndSortedItems = React.useMemo(() => {
     const filtered = items.filter(item => {
-      const inCategory = !selectedCategory || item.tags.includes(selectedCategory);
+      const inCategory = !selectedCategory || item.category === selectedCategory;
       const inPrice = item.price >= minPrice && item.price <= maxPrice;
       const inMark = selectedMarks.length === 0 || selectedMarks.includes(item.mark);
       const inSearch = !searchQuery || 
