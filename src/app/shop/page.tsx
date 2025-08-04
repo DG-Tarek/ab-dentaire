@@ -53,6 +53,7 @@ export default function Shop() {
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
   const [items, setItems] = React.useState<Item[]>([]);
   const [categories, setCategories] = React.useState<{ id: string; name: string; count: number }[]>([]);
+  const [marks, setMarks] = React.useState<{ id: string; name: string; count: number }[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [minPrice, setMinPrice] = React.useState(0);
   const [maxPrice, setMaxPrice] = React.useState(2000);
@@ -62,11 +63,12 @@ export default function Shop() {
   const [selectedSort, setSelectedSort] = React.useState<SortOption>("name-asc");
 
   React.useEffect(() => {
-    // Fetch items and categories in parallel
+    // Fetch items, categories, and marks in parallel
     Promise.all([
       fetch("/api/items").then((res) => res.json()),
-      fetch("/api/categories").then((res) => res.json())
-    ]).then(([itemsData, categoriesData]) => {
+      fetch("/api/categories").then((res) => res.json()),
+      fetch("/api/marks").then((res) => res.json())
+    ]).then(([itemsData, categoriesData, marksData]) => {
       setItems(itemsData);
       
       // Map categories to include counts from items
@@ -84,26 +86,29 @@ export default function Shop() {
         count: categoryMap.get(cat.name) || 0
       }));
       
+      // Map marks to include counts from items
+      const markMap = new Map<string, number>();
+      itemsData.forEach((item: Item) => {
+        const count = markMap.get(item.mark) || 0;
+        markMap.set(item.mark, count + 1);
+      });
+      
+      // Create marks with counts
+      const marksWithCounts = marksData.map((mark: { name: string }) => ({
+        id: mark.name,
+        name: mark.name,
+        count: markMap.get(mark.name) || 0
+      }));
+      
       setCategories(categoriesWithCounts);
+      setMarks(marksWithCounts);
       setLoading(false);
     });
   }, []);
 
 
 
-  // Get unique marks with counts
-  const marks = React.useMemo(() => {
-    const markMap = new Map<string, number>();
-    items.forEach(item => {
-      const count = markMap.get(item.mark) || 0;
-      markMap.set(item.mark, count + 1);
-    });
-    return Array.from(markMap.entries()).map(([id, count]) => ({
-      id,
-      name: id,
-      count
-    }));
-  }, [items]);
+
 
   // Compute min/max price from items
   const computedMinPrice = React.useMemo(() => items.length ? Math.min(...items.map(i => i.price)) : 0, [items]);
