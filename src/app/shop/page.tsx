@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ItemCardList } from "@/components/item-card-list";
 import { CategoryFilter } from "@/components/category-filter";
 import { PriceFilter } from "@/components/price-filter";
 import { MarkFilter } from "@/components/mark-filter";
+import { TagsFilter } from "@/components/tags-filter";
 import { SortSelector } from "@/components/sort-selector";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
@@ -50,25 +52,75 @@ interface Cart {
 }
 
 export default function Shop() {
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Initialize state from URL parameters
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    searchParams.get('category')
+  );
   const [items, setItems] = React.useState<Item[]>([]);
   const [categories, setCategories] = React.useState<{ id: string; name: string; count: number }[]>([]);
   const [marks, setMarks] = React.useState<{ id: string; name: string; count: number }[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [minPrice, setMinPrice] = React.useState(0);
-  const [maxPrice, setMaxPrice] = React.useState(2000);
-  const [selectedMarks, setSelectedMarks] = React.useState<string[]>([]);
+  const [minPrice, setMinPrice] = React.useState(
+    parseInt(searchParams.get('minPrice') || '0')
+  );
+  const [maxPrice, setMaxPrice] = React.useState(
+    parseInt(searchParams.get('maxPrice') || '2000')
+  );
+  const [selectedMarks, setSelectedMarks] = React.useState<string[]>(
+    searchParams.get('marks') ? searchParams.get('marks')!.split(',') : []
+  );
+  const [tags, setTags] = React.useState<{ name: string; count: number }[]>([]);
+  const [selectedTags, setSelectedTags] = React.useState<string[]>(
+    searchParams.get('tags') ? searchParams.get('tags')!.split(',') : []
+  );
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [selectedSort, setSelectedSort] = React.useState<SortOption>("name-asc");
+  const [searchQuery, setSearchQuery] = React.useState(
+    searchParams.get('search') || ""
+  );
+  const [selectedSort, setSelectedSort] = React.useState<SortOption>(
+    (searchParams.get('sort') as SortOption) || "name-asc"
+  );
+
+  // Function to update URL with current filter state
+  const updateURL = React.useCallback((newParams: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value === null || value === '') {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    
+    const newURL = `/shop?${params.toString()}`;
+    router.replace(newURL, { scroll: false });
+  }, [router, searchParams]);
+
+  // Update URL when filters change
+  React.useEffect(() => {
+    updateURL({
+      category: selectedCategory,
+      minPrice: minPrice.toString(),
+      maxPrice: maxPrice.toString(),
+      marks: selectedMarks.length > 0 ? selectedMarks.join(',') : null,
+      tags: selectedTags.length > 0 ? selectedTags.join(',') : null,
+      search: searchQuery || null,
+      sort: selectedSort
+    });
+  }, [selectedCategory, minPrice, maxPrice, selectedMarks, selectedTags, searchQuery, selectedSort, updateURL]);
 
   React.useEffect(() => {
-    // Fetch items, categories, and marks in parallel
+    // Fetch items, categories, marks, and tags in parallel
     Promise.all([
       fetch("/api/items").then((res) => res.json()),
       fetch("/api/categories").then((res) => res.json()),
-      fetch("/api/marks").then((res) => res.json())
-    ]).then(([itemsData, categoriesData, marksData]) => {
+      fetch("/api/marks").then((res) => res.json()),
+      fetch("/api/tags").then((res) => res.json())
+    ]).then(([itemsData, categoriesData, marksData, tagsData]) => {
       setItems(itemsData);
       
       // Map categories to include counts from items
@@ -100,8 +152,26 @@ export default function Shop() {
         count: markMap.get(mark.name) || 0
       }));
       
+      // Map tags to include counts from items
+      const tagMap = new Map<string, number>();
+      itemsData.forEach((item: Item) => {
+        if (item.tags && Array.isArray(item.tags)) {
+          item.tags.forEach(tag => {
+            const count = tagMap.get(tag) || 0;
+            tagMap.set(tag, count + 1);
+          });
+        }
+      });
+      
+      // Create tags with counts
+      const tagsWithCounts = tagsData.map((tag: { name: string }) => ({
+        name: tag.name,
+        count: tagMap.get(tag.name) || 0
+      }));
+      
       setCategories(categoriesWithCounts);
       setMarks(marksWithCounts);
+      setTags(tagsWithCounts);
       setLoading(false);
     });
   }, []);
@@ -114,13 +184,17 @@ export default function Shop() {
   const computedMinPrice = React.useMemo(() => items.length ? Math.min(...items.map(i => i.price)) : 0, [items]);
   const computedMaxPrice = React.useMemo(() => items.length ? Math.max(...items.map(i => i.price)) : 2000, [items]);
 
-  // Update min/max price when data loads
+  // Update min/max price when data loads (only if not already set from URL)
   React.useEffect(() => {
     if (!loading && items.length > 0) {
-      setMinPrice(computedMinPrice);
-      setMaxPrice(computedMaxPrice);
+      // Only update if the current values are the defaults (0 and 2000)
+      // This prevents overriding URL parameters
+      if (minPrice === 0 && maxPrice === 2000) {
+        setMinPrice(computedMinPrice);
+        setMaxPrice(computedMaxPrice);
+      }
     }
-  }, [loading, items, computedMinPrice, computedMaxPrice]);
+  }, [loading, items, computedMinPrice, computedMaxPrice, minPrice, maxPrice]);
 
 
 
@@ -130,14 +204,25 @@ export default function Shop() {
       const inCategory = !selectedCategory || item.category === selectedCategory;
       const inPrice = item.price >= minPrice && item.price <= maxPrice;
       const inMark = selectedMarks.length === 0 || selectedMarks.includes(item.mark);
+      const inTags = selectedTags.length === 0 || 
+        selectedTags.some(tag => item.tags && item.tags.includes(tag));
       const inSearch = !searchQuery || 
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return inCategory && inPrice && inMark && inSearch;
+      return inCategory && inPrice && inMark && inTags && inSearch;
     });
     
     return sortItems(filtered, selectedSort);
-  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks, searchQuery, selectedSort]);
+  }, [items, selectedCategory, minPrice, maxPrice, selectedMarks, selectedTags, searchQuery, selectedSort]);
+
+  // Check if any filters are active
+  const hasActiveFilters = selectedCategory !== null || 
+    minPrice !== computedMinPrice || 
+    maxPrice !== computedMaxPrice || 
+    selectedMarks.length > 0 || 
+    selectedTags.length > 0 || 
+    searchQuery !== "" || 
+    selectedSort !== "name-asc";
 
   // Filter components
   const FilterComponents = () => (
@@ -169,6 +254,14 @@ export default function Shop() {
           selectedMarks={selectedMarks}
           onMarkChange={setSelectedMarks}
           marks={marks}
+        />
+      )}
+      {/* Tags Filter */}
+      {!loading && tags.length > 0 && (
+        <TagsFilter
+          selectedTags={selectedTags}
+          onTagsChange={setSelectedTags}
+          tags={tags}
         />
       )}
     </div>
@@ -260,11 +353,18 @@ export default function Shop() {
                         service{filteredAndSortedItems.length !== 1 ? 's' : ''} trouvé{filteredAndSortedItems.length !== 1 ? 's' : ''}
                       </span>
                     </div>
-                    {searchQuery && (
-                      <Badge variant="outline" className="text-xs">
-                        Recherche: &quot;{searchQuery}&quot;
-                      </Badge>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {hasActiveFilters && (
+                        <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
+                          Filtres actifs
+                        </Badge>
+                      )}
+                      {searchQuery && (
+                        <Badge variant="outline" className="text-xs">
+                          Recherche: &quot;{searchQuery}&quot;
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>

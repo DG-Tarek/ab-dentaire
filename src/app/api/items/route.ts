@@ -10,7 +10,7 @@ const items = [
     price: 100,
     stock: 15,
     mark: "Premium",
-    tags: ["A"],
+    tags: ["A", "B"],
     category: "Services Spécialisés",
     createdAt: new Date("2024-01-01"),
     updatedAt: new Date("2024-01-01")
@@ -39,7 +39,7 @@ const items = [
     price: 600,
     stock: 12,
     mark: "Premium",
-    tags: ["C"],
+    tags: ["C", "A"],
     category: "Orthodontie",
     createdAt: new Date("2024-01-03"),
     updatedAt: new Date("2024-01-03")
@@ -68,7 +68,7 @@ const items = [
     price: 800,
     stock: 6,
     mark: "Luxury",
-    tags: ["E"],
+    tags: ["E", "D"],
     category: "Services Spécialisés",
     createdAt: new Date("2024-01-05"),
     updatedAt: new Date("2024-01-05")
@@ -113,7 +113,7 @@ const items = [
     new_price: 450,
     stock: 18,
     mark: "Standard",
-    tags: ["D"],
+    tags: ["D", "B"],
     category: "Prothèses",
     createdAt: new Date("2024-01-08"),
     updatedAt: new Date("2024-01-08")
@@ -158,7 +158,7 @@ const items = [
     new_price: 40,
     stock: 35,
     mark: "Basic",
-    tags: ["E"],
+    tags: ["E", "A"],
     category: "Services Spécialisés",
     createdAt: new Date("2024-01-11"),
     updatedAt: new Date("2024-01-11")
@@ -263,7 +263,7 @@ const items = [
     new_price: 1350,
     stock: 3,
     mark: "Luxury",
-    tags: ["E"],
+    tags: ["E", "D", "C"],
     category: "Services Spécialisés",
     createdAt: new Date("2024-01-18"),
     updatedAt: new Date("2024-01-18")

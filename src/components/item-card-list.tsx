@@ -116,8 +116,10 @@ export function ItemCardList({ selectedCategory, items: externalItems }: ItemCar
     });
   };
 
-  const handleCardClick = (itemId: string) => {
-    router.push(`/item/${itemId}`);
+  const handleCardClick = (itemId: string | undefined) => {
+    if (itemId) {
+      router.push(`/item/${itemId}`);
+    }
   };
 
   // If using externalItems, don't filter by category here
