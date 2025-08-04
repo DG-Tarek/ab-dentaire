@@ -86,7 +86,7 @@ export default function CardDetailPage() {
         ref: item.ref,
         name: item.name,
         image: item.image,
-        price: item.new_price && item.new_price < item.price ? item.new_price : item.price,
+        price: item.new_price ? item.new_price : item.price,
       }, quantity)
     }
   }
@@ -109,7 +109,7 @@ export default function CardDetailPage() {
   }
 
   // Calculate discount percentage if there's a new_price
-  const discountPercentage = item.new_price && item.new_price < item.price 
+  const discountPercentage = item.new_price 
     ? Math.round(((item.price - item.new_price) / item.price) * 100)
     : 0
 
@@ -192,7 +192,7 @@ export default function CardDetailPage() {
             {/* Price */}
             <div className="bg-gray-50 rounded-2xl p-3 sm:p-4">
               <div className="flex items-baseline gap-2 sm:gap-3">
-                {item.new_price && item.new_price < item.price ? (
+                {item.new_price ? (
                   <>
                     <span className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600">
                       {formatPrice(item.new_price, selectedCurrency)}
@@ -200,22 +200,14 @@ export default function CardDetailPage() {
                     <span className="text-sm sm:text-base md:text-lg text-gray-500 line-through">
                       {formatPrice(item.price, selectedCurrency)}
                     </span>
-                    <Badge className="bg-red-500 text-white text-xs px-2 py-0.5">
+                    <Badge className="bg-red-500 text-white text-xs px-2 py-0.5 hover:bg-red-500">
                       -{discountPercentage}%
                     </Badge>
                   </>
                 ) : (
-                  <>
-                    <span className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600">
-                      {formatPrice(item.price, selectedCurrency)}
-                    </span>
-                    <span className="text-sm sm:text-base md:text-lg text-gray-500 line-through">
-                      {formatPrice(item.price * 1.2, selectedCurrency)}
-                    </span>
-                    <Badge className="bg-red-500 text-white text-xs px-2 py-0.5">
-                      -20%
-                    </Badge>
-                  </>
+                  <span className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600">
+                    {formatPrice(item.price, selectedCurrency)}
+                  </span>
                 )}
               </div>
             </div>
@@ -339,7 +331,7 @@ export default function CardDetailPage() {
             {/* Price */}
             <div className="bg-gray-50 rounded-2xl p-4 lg:p-6">
               <div className="flex items-baseline gap-3 lg:gap-4">
-                {item.new_price && item.new_price < item.price ? (
+                {item.new_price ? (
                   <>
                     <span className="text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-600">
                       {formatPrice(item.new_price, selectedCurrency)}
@@ -347,22 +339,14 @@ export default function CardDetailPage() {
                     <span className="text-lg lg:text-xl xl:text-2xl text-gray-500 line-through">
                       {formatPrice(item.price, selectedCurrency)}
                     </span>
-                    <Badge className="bg-red-500 text-white text-xs lg:text-sm px-2 py-0.5">
+                    <Badge className="bg-red-500 text-white text-xs lg:text-sm px-2 py-0.5 hover:bg-red-500">
                       -{discountPercentage}%
                     </Badge>
                   </>
                 ) : (
-                  <>
-                    <span className="text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-600">
-                      {formatPrice(item.price, selectedCurrency)}
-                    </span>
-                    <span className="text-lg lg:text-xl xl:text-2xl text-gray-500 line-through">
-                      {formatPrice(item.price * 1.2, selectedCurrency)}
-                    </span>
-                    <Badge className="bg-red-500 text-white text-xs lg:text-sm px-2 py-0.5">
-                      -20%
-                    </Badge>
-                  </>
+                  <span className="text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-600">
+                    {formatPrice(item.price, selectedCurrency)}
+                  </span>
                 )}
               </div>
             </div>
