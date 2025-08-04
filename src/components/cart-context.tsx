@@ -1,24 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-
-interface CartItem {
-  itemId: string;            // Firestore Item document ID
-  ref: string;               // Product reference code
-  name: string;              // Product name
-  image: string;             // Product image URL
-  price: number;             // Price per unit (original or discounted)
-  quantity: number;          // Quantity selected
-  subtotal: number;          // price * quantity (calculated at time of checkout)
-}
-
-interface Cart {
-  userId?: string;           // Optional user ID (for logged-in users)
-  items: CartItem[];         // List of products to buy
-  total: number;             // Total cost = sum of subtotals
-  createdAt: Date;           // Cart creation time (or start of checkout)
-  updatedAt?: Date;          // Last update (e.g. added/removed items)
-}
+import { type CartItem, type Cart } from '@/lib/types'
 
 interface CartContextType {
   isCartOpen: boolean

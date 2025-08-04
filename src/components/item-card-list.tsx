@@ -7,23 +7,7 @@ import { Heart, ChevronLeft, ChevronRight, ShoppingCart, X } from "lucide-react"
 import { formatPrice } from "@/lib/utils";
 import { useCurrency } from "./currency-context";
 import { useCart } from "./cart-context";
-
-
-interface Item {
-  id?: string;              // Firestore document ID (auto-generated)
-  ref: string;              // Unique product reference code
-  image: string;            // URL to product image
-  name: string;             // Product name
-  description: string;      // Product description
-  mark: string;             // Brand or manufacturer
-  category: string;         // Product category
-  price: number;            // Original price
-  new_price?: number;       // Discounted price, optional if not on sale
-  stock: number;            // Available stock quantity
-  tags: string[];           // List of keywords or categories
-  createdAt?: Date;         // Timestamp for creation
-  updatedAt?: Date;         // Timestamp for last update
-}
+import { type Item } from "@/lib/types";
 
 // Custom hook to get responsive items per page
 function useItemsPerPage() {

@@ -10,46 +10,12 @@ import { TagsFilter } from "@/components/tags-filter";
 import { SortSelector } from "@/components/sort-selector";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Filter, X, Search, ArrowUpDown } from "lucide-react";
 import { type SortOption, sortItems } from "@/lib/utils";
-
-
-interface Item {
-  id?: string;              // Firestore document ID (auto-generated)
-  ref: string;              // Unique product reference code
-  image: string;            // URL to product image
-  name: string;             // Product name
-  description: string;      // Product description
-  mark: string;             // Brand or manufacturer
-  category: string;         // Product category
-  price: number;            // Original price
-  new_price?: number;       // Discounted price, optional if not on sale
-  stock: number;            // Available stock quantity
-  tags: string[];           // List of keywords or categories
-  createdAt?: Date;         // Timestamp for creation
-  updatedAt?: Date;         // Timestamp for last update
-}
-
-interface CartItem {
-  itemId: string;            // Firestore Item document ID
-  ref: string;               // Product reference code
-  name: string;              // Product name
-  image: string;             // Product image URL
-  price: number;             // Price per unit (original or discounted)
-  quantity: number;          // Quantity selected
-  subtotal: number;          // price * quantity (calculated at time of checkout)
-}
-
-interface Cart {
-  userId?: string;           // Optional user ID (for logged-in users)
-  items: CartItem[];         // List of products to buy
-  total: number;             // Total cost = sum of subtotals
-  createdAt: Date;           // Cart creation time (or start of checkout)
-  updatedAt?: Date;          // Last update (e.g. added/removed items)
-}
+import { type Item, type CartItem, type Cart } from "@/lib/types";
 
 export default function Shop() {
   const router = useRouter();

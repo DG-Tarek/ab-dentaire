@@ -12,21 +12,7 @@ import { useCurrency } from "@/components/currency-context"
 import { useCart } from "@/components/cart-context"
 import { RESPONSIVE_CLASSES, COMPONENT_SCALING } from "@/lib/responsive-scaling"
 
-interface Item {
-  id?: string;              // Firestore document ID (auto-generated)
-  ref: string;              // Unique product reference code
-  image: string;            // URL to product image
-  name: string;             // Product name
-  description: string;      // Product description
-  mark: string;             // Brand or manufacturer
-  category: string;         // Product category
-  price: number;            // Original price
-  new_price?: number;       // Discounted price, optional if not on sale
-  stock: number;            // Available stock quantity
-  tags: string[];           // List of keywords or categories
-  createdAt?: Date;         // Timestamp for creation
-  updatedAt?: Date;         // Timestamp for last update
-}
+import { type Item } from "@/lib/types";
 
 export default function CardDetailPage() {
   const params = useParams()
