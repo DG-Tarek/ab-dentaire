@@ -6,11 +6,11 @@ import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Zoom } from "@/components/ui/zoom"
-import { ArrowLeft, Heart, Share2, Star, ShoppingCart, X } from "lucide-react"
+import { ArrowLeft, Heart, Share2, ShoppingCart, X } from "lucide-react"
 import { formatPrice } from "@/lib/utils"
 import { useCurrency } from "@/components/currency-context"
 import { useCart } from "@/components/cart-context"
-import { RESPONSIVE_CLASSES, COMPONENT_SCALING } from "@/lib/responsive-scaling"
+
 
 import { type Item } from "@/lib/types";
 

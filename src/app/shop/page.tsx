@@ -13,11 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Filter, X, Search, ArrowUpDown } from "lucide-react";
+import { Filter, X, Search } from "lucide-react";
 import { type SortOption, sortItems } from "@/lib/utils";
-import { type Item, type CartItem, type Cart } from "@/lib/types";
+import { type Item } from "@/lib/types";
 
-export default function Shop() {
+// Separate component that uses useSearchParams
+function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -142,10 +143,6 @@ export default function Shop() {
     });
   }, []);
 
-
-
-
-
   // Compute min/max price from items
   const computedMinPrice = React.useMemo(() => items.length ? Math.min(...items.map(i => i.price)) : 0, [items]);
   const computedMaxPrice = React.useMemo(() => items.length ? Math.max(...items.map(i => i.price)) : 2000, [items]);
@@ -161,8 +158,6 @@ export default function Shop() {
       }
     }
   }, [loading, items, computedMinPrice, computedMaxPrice, minPrice, maxPrice]);
-
-
 
   // Filtered and sorted items for ItemCardList
   const filteredAndSortedItems = React.useMemo(() => {
@@ -343,5 +338,25 @@ export default function Shop() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function Shop() {
+  return (
+    <React.Suspense fallback={
+      <div className="min-h-screen p-3 md:p-4 lg:p-6 pattern-overlay">
+        <div className="w-full max-w-8xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
+              <p className="text-gray-600">Chargement...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <ShopContent />
+    </React.Suspense>
   );
 } 

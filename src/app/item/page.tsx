@@ -5,7 +5,7 @@ import { CardItem } from "@/components/card-item"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Search, Filter, Grid, List } from "lucide-react"
-import { dummyCards, getCategories, Card as CardType } from "@/lib/data"
+import { dummyCards, getCategories } from "@/lib/data"
 
 export default function CardsPage() {
   const [searchTerm, setSearchTerm] = useState("")

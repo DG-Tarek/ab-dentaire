@@ -122,7 +122,7 @@ const Zoom = React.forwardRef<HTMLDivElement, ZoomProps>(
         document.removeEventListener('keydown', handleEscape)
         document.body.style.overflow = 'unset'
       }
-    }, [isZoomed])
+    }, [isZoomed, handleCloseZoom])
 
     return (
       <>
